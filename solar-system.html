@@ -177,8 +177,7 @@ h1 {
 
 .moon-label {
     position: absolute;
-    display: block;
-    top: 32px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     color: #F2D99A;
@@ -191,7 +190,7 @@ h1 {
     pointer-events: none;
 }
 
-.moon:hover .moon-label {
+.moon-orbit:hover .moon-label {
     opacity: 1;
     visibility: visible;
 }
@@ -222,9 +221,8 @@ h1 {
 
 <!-- January -->
 <div class="moon-orbit" style="width:19%;height:19%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(0deg);">
-    <a class="moon" href="calendar.html?month=January" aria-label="January">
-        <span class="moon-label">JAN</span>
-    </a>
+    <a class="moon" href="calendar.html?month=January" aria-label="January"></a>
+    <span class="moon-label">JAN</span>
 </div>
 
 <!-- February -->
