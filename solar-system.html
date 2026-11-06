@@ -177,18 +177,23 @@ h1 {
 
 .moon-label {
     position: absolute;
-    top: 30px;
+    display: block;
+    top: 32px;
     left: 50%;
     transform: translateX(-50%);
     color: #F2D99A;
-    font-size: 19px;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
     white-space: nowrap;
     opacity: 0;
+    visibility: hidden;
+    z-index: 20;
     pointer-events: none;
 }
 
 .moon:hover .moon-label {
     opacity: 1;
+    visibility: visible;
 }
 </style>
 </head>
@@ -218,84 +223,84 @@ h1 {
 <!-- January -->
 <div class="moon-orbit" style="width:19%;height:19%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(0deg);">
     <a class="moon" href="calendar.html?month=January" aria-label="January">
-        <span class="moon-label">January</span>
+        <span class="moon-label">JAN</span>
     </a>
 </div>
 
 <!-- February -->
 <div class="moon-orbit" style="width:27%;height:27%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(135deg);">
     <a class="moon" href="calendar.html?month=February" aria-label="February">
-        <span class="moon-label">February</span>
+        <span class="moon-label">FEB</span>
     </a>
 </div>
 
 <!-- March -->
 <div class="moon-orbit" style="width:35%;height:35%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(240deg);">
     <a class="moon" href="calendar.html?month=March" aria-label="March">
-        <span class="moon-label">March</span>
+        <span class="moon-label">MAR</span>
     </a>
 </div>
 
 <!-- April -->
 <div class="moon-orbit" style="width:43%;height:43%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(55deg);">
     <a class="moon" href="calendar.html?month=April" aria-label="April">
-        <span class="moon-label">April</span>
+        <span class="moon-label">APR</span>
     </a>
 </div>
 
 <!-- May -->
 <div class="moon-orbit" style="width:51%;height:51%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(180deg);">
     <a class="moon" href="calendar.html?month=May" aria-label="May">
-        <span class="moon-label">May</span>
+        <span class="moon-label">MAY</span>
     </a>
 </div>
 
 <!-- June -->
 <div class="moon-orbit" style="width:59%;height:59%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(300deg);">
     <a class="moon" href="calendar.html?month=June" aria-label="June">
-        <span class="moon-label">June</span>
+        <span class="moon-label">JUN</span>
     </a>
 </div>
 
 <!-- July -->
 <div class="moon-orbit" style="width:67%;height:67%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(110deg);">
     <a class="moon" href="calendar.html?month=July" aria-label="July">
-        <span class="moon-label">July</span>
+        <span class="moon-label">JUL</span>
     </a>
 </div>
 
 <!-- August -->
 <div class="moon-orbit" style="width:75%;height:75%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(220deg);">
     <a class="moon" href="calendar.html?month=August" aria-label="August">
-        <span class="moon-label">August</span>
+        <span class="moon-label">AUG</span>
     </a>
 </div>
 
 <!-- September -->
 <div class="moon-orbit" style="width:83%;height:83%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(350deg);">
     <a class="moon" href="calendar.html?month=September" aria-label="September">
-        <span class="moon-label">September</span>
+        <span class="moon-label">SEP</span>
     </a>
 </div>
 
 <!-- October -->
 <div class="moon-orbit" style="width:91%;height:91%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(155deg);">
     <a class="moon" href="calendar.html?month=October" aria-label="October">
-        <span class="moon-label">October</span>
+        <span class="moon-label">OCT</span>
     </a>
 </div>
 
 <!-- November -->
 <div class="moon-orbit" style="width:99%;height:99%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(265deg);">
     <a class="moon" href="calendar.html?month=November" aria-label="November">
-        <span class="moon-label">November</span>
+        <span class="moon-label">NOV</span>
     </a>
 </div>
 
 <!-- December -->
 <div class="moon-orbit" style="width:107%;height:107%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(35deg);">
     <a class="moon" href="calendar.html?month=December" aria-label="December">
-        <span class="moon-label">December</span>
+        <span class="moon-label">DEC</span>
     </a>
 </div>
 
