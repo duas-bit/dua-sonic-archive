@@ -101,13 +101,18 @@ h1 {
 }
 
 .back-button {
-    position: absolute;
-    left: 25px;
-    bottom: 25px;
+    position: relative;
+    display: block;
+    width: fit-content;
+    margin: 8px auto 0;
     z-index: 3;
     color: #F2D99A;
     text-decoration: none;
     font-size: 24px;
+}
+
+.back-button:hover {
+    color: #FFFFFF;
 }
 
 @media (max-width: 600px) {
@@ -127,6 +132,71 @@ h1 {
         font-size: 12px;
     }
 }
+
+.moon-orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbit 65s linear infinite;
+}
+
+@keyframes orbit {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+.moon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    transform: translate(-50%, -50%);
+    display: block;
+    border-radius: 50%;
+    border: 2px solid #C5B8A0;
+    background:
+        radial-gradient(circle at 35% 30%, #F5E6C5, #A6A0A0 55%, #55566F);
+    box-shadow: 0 0 12px rgba(242, 217, 154, 0.45);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.moon:hover {
+    transform: translate(-50%, -50%) scale(1.35);
+    box-shadow: 0 0 20px #F2D99A;
+}
+
+.moon::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 5px;
+    left: 5px;
+    top: 6px;
+    border-radius: 50%;
+    background: rgba(65, 65, 85, 0.45);
+    box-shadow: 8px 7px 0 rgba(65, 65, 85, 0.3);
+}
+
+.moon-label {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #F2D99A;
+    font-size: 19px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.moon:hover .moon-label {
+    opacity: 1;
+}
 </style>
 </head>
 
@@ -135,6 +205,7 @@ h1 {
 <div class="sky"></div>
 
 <div class="subtitle">choose a moon to land on.</div>
+<a class="back-button" href="index.html">← BACK</a>
 
 <div class="solar-system">
 
@@ -151,11 +222,93 @@ h1 {
     <div class="orbit" style="width: 99%; height: 99%;"></div>
     <div class="orbit" style="width: 107%; height: 107%;"></div>
 
+<!-- January -->
+<div class="moon-orbit" style="width:19%;height:19%;animation-delay:0s;">
+    <a class="moon" href="calendar.html?month=January" aria-label="January">
+        <span class="moon-label">January</span>
+    </a>
+</div>
+
+<!-- February -->
+<div class="moon-orbit" style="width:27%;height:27%;animation-delay:-8s;">
+    <a class="moon" href="calendar.html?month=February" aria-label="February">
+        <span class="moon-label">February</span>
+    </a>
+</div>
+
+<!-- March -->
+<div class="moon-orbit" style="width:35%;height:35%;animation-delay:-19s;">
+    <a class="moon" href="calendar.html?month=March" aria-label="March">
+        <span class="moon-label">March</span>
+    </a>
+</div>
+
+<!-- April -->
+<div class="moon-orbit" style="width:43%;height:43%;animation-delay:-31s;">
+    <a class="moon" href="calendar.html?month=April" aria-label="April">
+        <span class="moon-label">April</span>
+    </a>
+</div>
+
+<!-- May -->
+<div class="moon-orbit" style="width:51%;height:51%;animation-delay:-12s;">
+    <a class="moon" href="calendar.html?month=May" aria-label="May">
+        <span class="moon-label">May</span>
+    </a>
+</div>
+
+<!-- June -->
+<div class="moon-orbit" style="width:59%;height:59%;animation-delay:-25s;">
+    <a class="moon" href="calendar.html?month=June" aria-label="June">
+        <span class="moon-label">June</span>
+    </a>
+</div>
+
+<!-- July -->
+<div class="moon-orbit" style="width:67%;height:67%;animation-delay:-38s;">
+    <a class="moon" href="calendar.html?month=July" aria-label="July">
+        <span class="moon-label">July</span>
+    </a>
+</div>
+
+<!-- August -->
+<div class="moon-orbit" style="width:75%;height:75%;animation-delay:-16s;">
+    <a class="moon" href="calendar.html?month=August" aria-label="August">
+        <span class="moon-label">August</span>
+    </a>
+</div>
+
+<!-- September -->
+<div class="moon-orbit" style="width:83%;height:83%;animation-delay:-44s;">
+    <a class="moon" href="calendar.html?month=September" aria-label="September">
+        <span class="moon-label">September</span>
+    </a>
+</div>
+
+<!-- October -->
+<div class="moon-orbit" style="width:91%;height:91%;animation-delay:-22s;">
+    <a class="moon" href="calendar.html?month=October" aria-label="October">
+        <span class="moon-label">October</span>
+    </a>
+</div>
+
+<!-- November -->
+<div class="moon-orbit" style="width:99%;height:99%;animation-delay:-51s;">
+    <a class="moon" href="calendar.html?month=November" aria-label="November">
+        <span class="moon-label">November</span>
+    </a>
+</div>
+
+<!-- December -->
+<div class="moon-orbit" style="width:107%;height:107%;animation-delay:-35s;">
+    <a class="moon" href="calendar.html?month=December" aria-label="December">
+        <span class="moon-label">December</span>
+    </a>
+</div>
+
     <div class="planet">2027</div>
 
 </div>
-
-<a class="back-button" href="index.html">← BACK</a>
-
+    
 </body>
 </html>
