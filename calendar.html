@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sai's Sonic Archive | Lunar Archive</title>
+<title>Sai's Sonic Archive | Monthly Log</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
@@ -107,27 +107,110 @@ main {
     width: 34px;
     height: 34px;
     display: block;
-    border: 2px solid #B9B3B0;
+    border: 2px solid #D9C99F;
     border-radius: 50%;
-    background: #B9B3B0;
-    box-shadow: 0 0 12px rgba(242, 217, 154, 0.4);
+    background:
+        radial-gradient(circle at 30% 28%, #FFF4D5 0 8%, transparent 9%),
+        radial-gradient(circle at 65% 65%, #A99B83 0 10%, transparent 11%),
+        radial-gradient(circle at 40% 72%, #B9AA91 0 7%, transparent 8%),
+        #E9D8B5;
+    box-shadow: 0 0 12px rgba(242,217,154,0.4);
     cursor: pointer;
-    image-rendering: pixelated;
+    overflow: hidden;
 }
 
+/* Pixelated lunar shadow */
 .moon::before {
     content: "";
     position: absolute;
-    width: 8px;
-    height: 7px;
-    left: 6px;
-    top: 7px;
-    background: #77758A;
-    box-shadow:
-        10px 9px 0 #9993A0,
-        3px 17px 0 #9993A0;
+    inset: 0;
+    background: #34344D;
+    z-index: 2;
 }
 
+/* Pixelated craters */
+.moon::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    left: 7px;
+    top: 7px;
+    background: #A99B83;
+    box-shadow:
+        9px 3px 0 #B9AA91,
+        3px 12px 0 #A99B83,
+        16px 16px 0 #B9AA91,
+        10px 22px 0 #A99B83;
+    z-index: 3;
+}
+    
+/* New moon */
+.phase-0 {
+    background: #34344D;
+}
+.phase-0::before {
+    display: none;
+}
+
+/* Waxing crescent */
+.phase-1::before {
+    clip-path: polygon(
+        0 0, 75% 0, 75% 12%,
+        88% 12%, 88% 25%, 100% 25%,
+        100% 75%, 88% 75%, 88% 88%,
+        75% 88%, 75% 100%, 0 100%
+    );
+}
+
+/* First quarter */
+.phase-2::before {
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
+
+/* Waxing gibbous */
+.phase-3::before {
+    clip-path: polygon(
+        0 0, 25% 0, 25% 12%,
+        12% 12%, 12% 25%, 0 25%
+    );
+}
+
+/* Full moon */
+.phase-4::before {
+    display: none;
+}
+
+/* Waning gibbous */
+.phase-5::before {
+    clip-path: polygon(
+        75% 0, 100% 0, 100% 25%,
+        88% 25%, 88% 75%, 100% 75%,
+        100% 100%, 75% 100%
+    );
+}
+
+/* Last quarter */
+.phase-6::before {
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+}
+
+/* Waning crescent */
+.phase-7::before {
+    clip-path: polygon(
+        25% 0, 100% 0, 100% 100%,
+        25% 100%, 25% 88%, 12% 88%,
+        12% 75%, 0 75%, 0 25%,
+        12% 25%, 12% 12%, 25% 12%
+    );
+}
+
+/* No music: inverted lunar colours */
+.day.no-music .moon {
+    filter: invert(1);
+    box-shadow: 0 0 15px rgba(242,217,154,0.65);
+}
+    
 .day.completed .moon {
     background: #F2D99A;
     border-color: #F2D99A;
@@ -242,8 +325,7 @@ main {
 <div class="sky"></div>
 
 <header>
-    <h1>LUNAR ARCHIVE</h1>
-    <div class="subtitle">your days among the stars.</div>
+    <div class="subtitle">pick a phase.</div>
     <a class="back-button" href="solar-system.html">← BACK</a>
 </header>
 
@@ -295,9 +377,11 @@ for (let day = 1; day <= daysInMonth; day++) {
         cell.classList.add("future");
     }
 
+    const phase = (day - 1) % 8;
+    
     cell.innerHTML = `
         <span>${day}</span>
-        <div class="moon"></div>
+        <div class="moon phase-${phase}"></div>
     `;
 
     if (day <= today) {
