@@ -132,39 +132,53 @@ main {
 .phase-0 { background:#34344D; }
 .phase-0::before { display:none; }
 
-/* WAXING CRESCENT — illuminated right */
+/* WAXING CRESCENT — light on right */
 .phase-1::before {
-    clip-path:ellipse(50% 50% at 0% 50%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        0 85%,15% 85%,15% 70%,
+        25% 70%,25% 30%,15% 30%,15% 15%
+    );
 }
 
-/* FIRST QUARTER — illuminated right half */
+/* FIRST QUARTER — light on right */
 .phase-2::before {
     clip-path:inset(0 0 0 50%);
 }
 
 /* WAXING GIBBOUS — small shadow on left */
 .phase-3::before {
-    clip-path:ellipse(50% 50% at -12% 50%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        0 15%,12% 15%,12% 30%,
+        20% 30%,20% 70%,12% 70%,12% 85%
+    );
 }
 
 /* FULL MOON */
-.phase-4::before {
-    display:none;
-}
+.phase-4::before { display:none; }
 
 /* WANING GIBBOUS — small shadow on right */
 .phase-5::before {
-    clip-path:ellipse(50% 50% at 112% 50%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        100% 15%,88% 15%,88% 30%,
+        80% 30%,80% 70%,88% 70%,88% 85%
+    );
 }
 
-/* THIRD QUARTER — illuminated left half */
+/* THIRD QUARTER — light on left */
 .phase-6::before {
     clip-path:inset(0 50% 0 0);
 }
 
-/* WANING CRESCENT — illuminated left */
+/* WANING CRESCENT — light on left */
 .phase-7::before {
-    clip-path:ellipse(50% 50% at 100% 50%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        100% 85%,85% 85%,85% 70%,
+        75% 70%,75% 30%,85% 30%,85% 15%
+    );
 }
 
 /* NO MUSIC: INVERTED COLOURWAY */
