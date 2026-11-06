@@ -134,17 +134,25 @@ main {
 
 /* WAXING CRESCENT */
 .phase-1::before {
-    clip-path:polygon(0 0,85% 0,85% 10%,65% 10%,65% 20%,45% 20%,45% 35%,35% 35%,35% 65%,45% 65%,45% 80%,65% 80%,65% 90%,85% 90%,85% 100%,0 100%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        0 85%,15% 85%,15% 65%,25% 65%,
+        25% 35%,15% 35%,15% 15%
+    );
 }
 
 /* FIRST QUARTER */
 .phase-2::before {
-    clip-path:polygon(0 0,50% 0,50% 100%,0 100%);
+    clip-path:inset(0 0 0 50%);
 }
 
 /* WAXING GIBBOUS */
 .phase-3::before {
-    clip-path:polygon(0 0,25% 0,25% 10%,15% 10%,15% 25%,8% 25%,8% 75%,15% 75%,15% 90%,25% 90%,25% 100%,0 100%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        0 10%,15% 10%,15% 25%,
+        8% 25%,8% 75%,15% 75%,15% 90%
+    );
 }
 
 /* FULL MOON */
@@ -152,23 +160,36 @@ main {
 
 /* WANING GIBBOUS */
 .phase-5::before {
-    clip-path:polygon(75% 0,100% 0,100% 100%,75% 100%,75% 90%,85% 90%,85% 75%,92% 75%,92% 25%,85% 25%,85% 10%,75% 10%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        100% 90%,85% 90%,85% 75%,
+        92% 75%,92% 25%,85% 25%,85% 10%
+    );
 }
 
-/* LAST QUARTER */
+/* THIRD QUARTER */
 .phase-6::before {
-    clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%);
+    clip-path:inset(0 50% 0 0);
 }
 
 /* WANING CRESCENT */
 .phase-7::before {
-    clip-path:polygon(15% 0,100% 0,100% 100%,15% 100%,15% 90%,35% 90%,35% 80%,55% 80%,55% 65%,65% 65%,65% 35%,55% 35%,55% 20%,35% 20%,35% 10%,15% 10%);
+    clip-path:polygon(
+        0 0,100% 0,100% 100%,0 100%,
+        100% 85%,85% 85%,85% 65%,
+        75% 65%,75% 35%,85% 35%,85% 15%
+    );
 }
 
 /* NO MUSIC: INVERTED COLOURWAY */
 .day.no-music .moon {
-    filter:invert(1);
-    box-shadow:0 0 15px rgba(242,217,154,.65);
+    background:#34344D;
+    border-color:#B7A9D5;
+    box-shadow:0 0 15px rgba(183,169,213,.5);
+}
+
+.day.no-music .moon::before {
+    background:#DCCBA8;
 }
     
 .day.completed .moon {
@@ -421,6 +442,18 @@ main {
 
     .flagpole { bottom:25px; height:70px; }
     .landing-flag { bottom:65px; }
+}
+
+@media(max-width:600px) {
+    .moon {
+        width:23px;
+        height:23px;
+        flex-shrink:0;
+    }
+
+    .moon::before {
+        inset:0;
+    }
 }
 
 </style>
