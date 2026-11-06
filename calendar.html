@@ -102,113 +102,83 @@ main {
     font-size: 20px;
 }
 
+/* PIXELATED MOON SURFACE */
 .moon {
-    position: relative;
-    width: 34px;
-    height: 34px;
-    display: block;
-    border: 2px solid #D9C99F;
-    border-radius: 50%;
-    background:
-        radial-gradient(circle at 30% 28%, #FFF4D5 0 8%, transparent 9%),
-        radial-gradient(circle at 65% 65%, #A99B83 0 10%, transparent 11%),
-        radial-gradient(circle at 40% 72%, #B9AA91 0 7%, transparent 8%),
-        #E9D8B5;
-    box-shadow: 0 0 12px rgba(242,217,154,0.4);
-    cursor: pointer;
-    overflow: hidden;
+    position:relative;
+    width:38px;
+    height:38px;
+    display:block;
+    border-radius:50%;
+    overflow:hidden;
+    background:#DCCBA8;
+    border:2px solid #F2D99A;
+    box-shadow:0 0 12px rgba(242,217,154,.35);
+    image-rendering:pixelated;
 }
 
-/* Pixelated lunar shadow */
 .moon::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #34344D;
-    z-index: 2;
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:#34344D;
 }
 
-/* Pixelated craters */
 .moon::after {
-    content: "";
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    left: 7px;
-    top: 7px;
-    background: #A99B83;
-    box-shadow:
-        9px 3px 0 #B9AA91,
-        3px 12px 0 #A99B83,
-        16px 16px 0 #B9AA91,
-        10px 22px 0 #A99B83;
-    z-index: 3;
-}
-    
-/* New moon */
-.phase-0 {
-    background: #34344D;
-}
-.phase-0::before {
-    display: none;
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:3;
+    background:
+        radial-gradient(circle at 25% 25%,#A99B83 0 3px,transparent 4px),
+        radial-gradient(circle at 70% 30%,#B9AA91 0 4px,transparent 5px),
+        radial-gradient(circle at 40% 65%,#A99B83 0 5px,transparent 6px),
+        radial-gradient(circle at 75% 75%,#B9AA91 0 3px,transparent 4px),
+        radial-gradient(circle at 20% 80%,#B9AA91 0 2px,transparent 3px);
+    pointer-events:none;
 }
 
-/* Waxing crescent */
+/* NEW MOON */
+.phase-0 { background:#34344D; }
+.phase-0::before { display:none; }
+
+/* WAXING CRESCENT */
 .phase-1::before {
-    clip-path: polygon(
-        0 0, 75% 0, 75% 12%,
-        88% 12%, 88% 25%, 100% 25%,
-        100% 75%, 88% 75%, 88% 88%,
-        75% 88%, 75% 100%, 0 100%
-    );
+    clip-path:polygon(0 0,85% 0,85% 10%,65% 10%,65% 20%,45% 20%,45% 35%,35% 35%,35% 65%,45% 65%,45% 80%,65% 80%,65% 90%,85% 90%,85% 100%,0 100%);
 }
 
-/* First quarter */
+/* FIRST QUARTER */
 .phase-2::before {
-    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    clip-path:polygon(0 0,50% 0,50% 100%,0 100%);
 }
 
-/* Waxing gibbous */
+/* WAXING GIBBOUS */
 .phase-3::before {
-    clip-path: polygon(
-        0 0, 25% 0, 25% 12%,
-        12% 12%, 12% 25%, 0 25%
-    );
+    clip-path:polygon(0 0,25% 0,25% 10%,15% 10%,15% 25%,8% 25%,8% 75%,15% 75%,15% 90%,25% 90%,25% 100%,0 100%);
 }
 
-/* Full moon */
-.phase-4::before {
-    display: none;
-}
+/* FULL MOON */
+.phase-4::before { display:none; }
 
-/* Waning gibbous */
+/* WANING GIBBOUS */
 .phase-5::before {
-    clip-path: polygon(
-        75% 0, 100% 0, 100% 25%,
-        88% 25%, 88% 75%, 100% 75%,
-        100% 100%, 75% 100%
-    );
+    clip-path:polygon(75% 0,100% 0,100% 100%,75% 100%,75% 90%,85% 90%,85% 75%,92% 75%,92% 25%,85% 25%,85% 10%,75% 10%);
 }
 
-/* Last quarter */
+/* LAST QUARTER */
 .phase-6::before {
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%);
 }
 
-/* Waning crescent */
+/* WANING CRESCENT */
 .phase-7::before {
-    clip-path: polygon(
-        25% 0, 100% 0, 100% 100%,
-        25% 100%, 25% 88%, 12% 88%,
-        12% 75%, 0 75%, 0 25%,
-        12% 25%, 12% 12%, 25% 12%
-    );
+    clip-path:polygon(15% 0,100% 0,100% 100%,15% 100%,15% 90%,35% 90%,35% 80%,55% 80%,55% 65%,65% 65%,65% 35%,55% 35%,55% 20%,35% 20%,35% 10%,15% 10%);
 }
 
-/* No music: inverted lunar colours */
+/* NO MUSIC: INVERTED COLOURWAY */
 .day.no-music .moon {
-    filter: invert(1);
-    box-shadow: 0 0 15px rgba(242,217,154,0.65);
+    filter:invert(1);
+    box-shadow:0 0 15px rgba(242,217,154,.65);
 }
     
 .day.completed .moon {
@@ -317,6 +287,150 @@ main {
         font-size: 16px;
     }
 }
+
+/* LUNAR LANDING */
+.lunar-landing {
+    position:relative;
+    height:190px;
+    margin-top:65px;
+    overflow:hidden;
+}
+
+.landing-moon {
+    position:absolute;
+    bottom:-115px;
+    left:50%;
+    transform:translateX(-50%);
+    width:460px;
+    height:230px;
+    border-radius:50% 50% 0 0;
+    background:#B7A9D5;
+    border:4px solid #E9D8B5;
+    box-shadow:0 -8px 30px rgba(183,169,213,.2);
+}
+
+/* Astronaut */
+.astronaut {
+    position:absolute;
+    bottom:35px;
+    left:calc(50% - 65px);
+    width:55px;
+    height:105px;
+    z-index:2;
+}
+
+.helmet {
+    position:absolute;
+    top:0;
+    left:9px;
+    width:38px;
+    height:38px;
+    background:#E9D8B5;
+    border:4px solid #F2D99A;
+    border-radius:35%;
+    z-index:3;
+}
+
+.visor {
+    position:absolute;
+    top:7px;
+    left:6px;
+    width:20px;
+    height:17px;
+    background:#96664D;
+    border:3px solid #B7A9D5;
+}
+
+.suit {
+    position:absolute;
+    top:39px;
+    left:10px;
+    width:36px;
+    height:39px;
+    background:#E9D8B5;
+    border:3px solid #B7A9D5;
+}
+
+.suit-detail {
+    position:absolute;
+    top:8px;
+    left:7px;
+    color:#171323;
+    font-size:17px;
+}
+
+.astronaut-arm {
+    position:absolute;
+    top:45px;
+    width:10px;
+    height:29px;
+    background:#E9D8B5;
+    border:2px solid #B7A9D5;
+}
+
+.astronaut-arm.left { left:1px; }
+.astronaut-arm.right { right:0; }
+
+.astronaut-leg {
+    position:absolute;
+    top:76px;
+    width:14px;
+    height:22px;
+    background:#E9D8B5;
+    border:3px solid #B7A9D5;
+}
+
+.astronaut-leg.left { left:10px; }
+.astronaut-leg.right { left:29px; }
+
+/* Flag */
+.flagpole {
+    position:absolute;
+    bottom:35px;
+    left:calc(50% + 75px);
+    width:4px;
+    height:90px;
+    background:#E9D8B5;
+    z-index:2;
+}
+
+.landing-flag {
+    position:absolute;
+    bottom:85px;
+    left:calc(50% + 79px);
+    width:58px;
+    height:35px;
+    background:#F2D99A;
+    color:#171323;
+    font-family:'VT323',monospace;
+    font-size:27px;
+    text-align:center;
+    line-height:35px;
+    clip-path:polygon(0 0,100% 0,85% 100%,0 100%);
+    z-index:2;
+}
+
+@media(max-width:600px) {
+    .lunar-landing {
+        height:150px;
+        margin-top:45px;
+    }
+
+    .landing-moon {
+        width:340px;
+        height:170px;
+        bottom:-90px;
+    }
+
+    .astronaut {
+        transform:scale(.8);
+        transform-origin:bottom;
+        bottom:25px;
+    }
+
+    .flagpole { bottom:25px; height:70px; }
+    .landing-flag { bottom:65px; }
+}
 </style>
 </head>
 
@@ -395,5 +509,34 @@ for (let day = 1; day <= daysInMonth; day++) {
 }
 </script>
 
+<div class="lunar-landing">
+
+    <div class="landing-moon"></div>
+
+    <div class="astronaut">
+        <!-- Helmet -->
+        <div class="helmet">
+            <div class="visor"></div>
+        </div>
+
+        <!-- Suit -->
+        <div class="suit">
+            <div class="suit-detail">♫</div>
+        </div>
+
+        <!-- Arms -->
+        <div class="astronaut-arm left"></div>
+        <div class="astronaut-arm right"></div>
+
+        <!-- Legs -->
+        <div class="astronaut-leg left"></div>
+        <div class="astronaut-leg right"></div>
+    </div>
+
+    <!-- Flag -->
+    <div class="flagpole"></div>
+    <div class="landing-flag">♫</div>
+
+</div>
 </body>
 </html>
