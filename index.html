@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sai's Sonic Archive</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #080B19;
+    color: #F2D99A;
+    font-family: monospace;
+}
+
+.sky {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(1px 1px at 10% 20%, #FFFFFF 99%, transparent),
+        radial-gradient(1px 1px at 30% 70%, #F2D99A 99%, transparent),
+        radial-gradient(2px 2px at 65% 35%, #FFFFFF 99%, transparent),
+        radial-gradient(1px 1px at 85% 80%, #FFFFFF 99%, transparent),
+        radial-gradient(1px 1px at 45% 15%, #F2D99A 99%, transparent),
+        radial-gradient(2px 2px at 75% 55%, #FFFFFF 99%, transparent),
+        radial-gradient(1px 1px at 20% 90%, #FFFFFF 99%, transparent),
+        #080B19;
+
+    background-size: 350px 350px;
+}
+    
+.sky::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(ellipse at 20% 35%,
+            rgba(76, 65, 133, 0.30),
+            transparent 35%),
+
+        radial-gradient(ellipse at 75% 25%,
+            rgba(45, 76, 125, 0.25),
+            transparent 40%),
+
+        radial-gradient(ellipse at 55% 75%,
+            rgba(113, 71, 112, 0.20),
+            transparent 35%),
+
+        radial-gradient(ellipse at 90% 70%,
+            rgba(160, 119, 76, 0.12),
+            transparent 30%);
+
+    filter: blur(35px);
+    pointer-events: none;
+}
+    
+.sky::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(2px 2px at 15% 25%, #FFFFFF 99%, transparent),
+        radial-gradient(3px 3px at 40% 60%, #F2D99A 99%, transparent),
+        radial-gradient(2px 2px at 80% 15%, #FFFFFF 99%, transparent),
+        radial-gradient(2px 2px at 65% 85%, #FFFFFF 99%, transparent),
+        radial-gradient(3px 3px at 90% 45%, #F2D99A 99%, transparent),
+        radial-gradient(2px 2px at 30% 80%, #FFFFFF 99%, transparent);
+
+    background-size: 550px 550px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.35;
+    }
+    to {
+        opacity: 1;
+    }
+}
+    
+.explorer {
+    position: fixed;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(520px, 90vw);
+    z-index: 2;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+.explorer svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+    
+.home-content {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    padding: 24px;
+    padding-bottom: 100px;
+}
+
+.home-content h1 {
+    font-family: monospace;
+    font-size: clamp(22px, 4vw, 42px);
+    line-height: 1.8;
+    letter-spacing: 3px;
+    color: #F2D99A;
+    text-shadow: 0 0 18px rgba(242, 217, 154, 0.35);
+    margin: 0 0 35px;
+}
+
+.explore-button {
+    padding: 15px 25px;
+    background: transparent;
+    border: 1px solid #F2D99A;
+    color: #F2D99A;
+
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.explore-button:hover {
+    background: #F2D99A;
+    color: #080B19;
+    box-shadow: 0 0 22px rgba(242, 217, 154, 0.35);
+}
+
+</style>
+</head>
+
+<body>
+    <div class="sky"></div>
+    
+    <div class="explorer">
+    
+    <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    
+    <!-- Ground -->
+    <rect x="0" y="165" width="320" height="15" fill="#101426"/>
+    
+    <!-- Telescope tripod -->
+    <rect x="226" y="112" width="4" height="53" fill="#8B7959"/>
+    <rect x="227" y="135" width="35" height="3" fill="#8B7959"/>
+    <rect x="227" y="135" width="3" height="30" fill="#8B7959"/>
+    <rect x="259" y="135" width="3" height="30" fill="#8B7959"/>
+    
+    <!-- Telescope -->
+    <rect x="198" y="91" width="65" height="12" fill="#B5A17A"/>
+    <rect x="204" y="87" width="52" height="4" fill="#D6C59C"/>
+    <rect x="260" y="87" width="7" height="20" fill="#6F7894"/>
+    <rect x="194" y="87" width="6" height="20" fill="#D6C59C"/>
+    <rect x="190" y="91" width="4" height="12" fill="#F2D99A"/>
+    
+    <!-- Explorer's hair -->
+    <rect x="99" y="88" width="39" height="35" fill="#171323"/>
+    <rect x="95" y="96" width="47" height="27" fill="#171323"/>
+    <rect x="103" y="82" width="31" height="12" fill="#171323"/>
+    
+    <!-- Explorer's face -->
+    <rect x="105" y="96" width="27" height="24" fill="#C58E72"/>
+    <rect x="105" y="96" width="7" height="15" fill="#171323"/>
+    <rect x="128" y="96" width="7" height="17" fill="#171323"/>
+    
+    <!-- Body / jacket -->
+    <rect x="94" y="123" width="48" height="32" fill="#D3A94F"/>
+    <rect x="102" y="123" width="32" height="28" fill="#F2D99A"/>
+    <rect x="88" y="130" width="10" height="24" fill="#171323"/>
+    <rect x="139" y="130" width="10" height="24" fill="#171323"/>
+    
+    <!-- Seated legs -->
+    <rect x="99" y="151" width="25" height="9" fill="#252B45"/>
+    <rect x="123" y="151" width="27" height="9" fill="#252B45"/>
+    <rect x="88" y="158" width="37" height="7" fill="#171323"/>
+    <rect x="123" y="158" width="36" height="7" fill="#171323"/>
+    
+    <!-- Small golden details -->
+    <rect x="115" y="132" width="4" height="4" fill="#FFF0C2"/>
+    <rect x="145" y="145" width="4" height="4" fill="#F2D99A"/>
+    
+    <!-- Telescope eyepiece glow -->
+    <rect x="187" y="92" width="3" height="4" fill="#F2D99A"/>
+    
+    </svg>
+    </div>
+    
+    <div class="home-content">
+    
+        <h1>Sai's Sonic Archive</h1>
+    
+        <button class="explore-button">
+            begin exploration
+        </button>
+    
+    </div>
+
+
+</body>
+</html>
