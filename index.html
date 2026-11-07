@@ -245,20 +245,20 @@ body {
 .constellations {
     width: 100%;
     height: 100%;
-    opacity: 0.72;
+    opacity: 0.42;
 }
 
 .constellation path {
     fill: none;
-    stroke: rgba(183, 169, 213, 0.48);
-    stroke-width: 1.5;
+    stroke: rgba(183, 169, 213, 0.35);
+    stroke-width: 1;
     stroke-linecap: square;
     stroke-linejoin: miter;
 }
 
-.constellation rect {
-    fill: #F2D99A;
-    filter: drop-shadow(0 0 3px rgba(242, 217, 154, 0.8));
+.constellation .stars rect {
+    fill: #D8C9EB;
+    opacity: 0.7;
 }
     
 </style>
@@ -268,79 +268,80 @@ body {
 <div class="sky"></div>
 <div class="celestial-layer" aria-hidden="true">
 
-    <svg class="constellations" viewBox="0 0 1000 700"
-         preserveAspectRatio="none"
-         shape-rendering="crispEdges"
-         xmlns="http://www.w3.org/2000/svg">
+<svg class="constellations" viewBox="0 0 1000 700"
+     preserveAspectRatio="none"
+     shape-rendering="crispEdges"
+     xmlns="http://www.w3.org/2000/svg">
 
-        <!-- Ursa Major -->
-        <g class="constellation">
-            <path d="M90 130 L145 105 L190 125 L230 95 L275 115 L310 160 L255 180 L205 155 L190 125"/>
-            <path d="M230 95 L250 55"/>
-            <rect x="86" y="126" width="8" height="8"/>
-            <rect x="141" y="101" width="8" height="8"/>
-            <rect x="186" y="121" width="8" height="8"/>
-            <rect x="226" y="91" width="8" height="8"/>
-            <rect x="271" y="111" width="8" height="8"/>
-            <rect x="306" y="156" width="8" height="8"/>
-            <rect x="251" y="176" width="8" height="8"/>
-            <rect x="201" y="151" width="8" height="8"/>
-            <rect x="246" y="51" width="8" height="8"/>
+    <!-- Ursa Major / Big Dipper -->
+    <g class="constellation" transform="translate(110 135) rotate(30) scale(.75)">
+        <path d="M0 25 L28 10 L58 18 L52 48 Z M58 18 L78 5 L100 0 L120 12"/>
+        <g class="stars">
+            <rect x="-2" y="23" width="5" height="5"/>
+            <rect x="26" y="8" width="5" height="5"/>
+            <rect x="56" y="16" width="5" height="5"/>
+            <rect x="50" y="46" width="5" height="5"/>
+            <rect x="76" y="3" width="5" height="5"/>
+            <rect x="98" y="-2" width="5" height="5"/>
+            <rect x="118" y="10" width="5" height="5"/>
         </g>
+    </g>
 
-        <!-- Cassiopeia -->
-        <g class="constellation">
-            <path d="M650 100 L700 145 L750 90 L805 145 L860 95"/>
-            <rect x="646" y="96" width="8" height="8"/>
-            <rect x="696" y="141" width="8" height="8"/>
-            <rect x="746" y="86" width="8" height="8"/>
-            <rect x="801" y="141" width="8" height="8"/>
-            <rect x="856" y="91" width="8" height="8"/>
+    <!-- Cassiopeia -->
+    <g class="constellation" transform="translate(700 105) rotate(-18) scale(.72)">
+        <path d="M0 25 L28 0 L55 28 L82 0 L110 25"/>
+        <g class="stars">
+            <rect x="-2" y="23" width="5" height="5"/>
+            <rect x="26" y="-2" width="5" height="5"/>
+            <rect x="53" y="26" width="5" height="5"/>
+            <rect x="80" y="-2" width="5" height="5"/>
+            <rect x="108" y="23" width="5" height="5"/>
         </g>
+    </g>
 
-        <!-- Orion -->
-        <g class="constellation">
-            <path d="M420 350 L465 390 L510 350 M465 390 L470 450 L430 520 L410 570 M470 450 L520 520 L545 570 M420 350 L405 290 L445 270 L510 290 L510 350"/>
-            <rect x="416" y="346" width="8" height="8"/>
-            <rect x="461" y="386" width="8" height="8"/>
-            <rect x="506" y="346" width="8" height="8"/>
-            <rect x="466" y="446" width="8" height="8"/>
-            <rect x="426" y="516" width="8" height="8"/>
-            <rect x="406" y="566" width="8" height="8"/>
-            <rect x="516" y="516" width="8" height="8"/>
-            <rect x="541" y="566" width="8" height="8"/>
-            <rect x="401" y="286" width="8" height="8"/>
-            <rect x="441" y="266" width="8" height="8"/>
-            <rect x="506" y="286" width="8" height="8"/>
+    <!-- Orion -->
+    <g class="constellation" transform="translate(430 330) rotate(12) scale(.65)">
+        <path d="M0 0 L70 0 L60 35 L45 48 L30 35 L0 0 M30 35 L5 100 M45 48 L80 100 M30 35 L45 48"/>
+        <g class="stars">
+            <rect x="-2" y="-2" width="5" height="5"/>
+            <rect x="68" y="-2" width="5" height="5"/>
+            <rect x="58" y="33" width="5" height="5"/>
+            <rect x="43" y="46" width="5" height="5"/>
+            <rect x="28" y="33" width="5" height="5"/>
+            <rect x="3" y="98" width="5" height="5"/>
+            <rect x="78" y="98" width="5" height="5"/>
         </g>
+    </g>
 
-        <!-- Capricorn -->
-        <g class="constellation">
-            <path d="M100 480 L150 440 L205 455 L250 420 L300 445 L335 490 L290 525 L235 510 L205 455"/>
-            <rect x="96" y="476" width="8" height="8"/>
-            <rect x="146" y="436" width="8" height="8"/>
-            <rect x="201" y="451" width="8" height="8"/>
-            <rect x="246" y="416" width="8" height="8"/>
-            <rect x="296" y="441" width="8" height="8"/>
-            <rect x="331" y="486" width="8" height="8"/>
-            <rect x="286" y="521" width="8" height="8"/>
-            <rect x="231" y="506" width="8" height="8"/>
+    <!-- Capricorn -->
+    <g class="constellation" transform="translate(125 500) rotate(-22) scale(.65)">
+        <path d="M0 40 L25 15 L55 5 L85 22 L110 40 L95 65 L65 75 L35 60 L0 40"/>
+        <g class="stars">
+            <rect x="-2" y="38" width="5" height="5"/>
+            <rect x="23" y="13" width="5" height="5"/>
+            <rect x="53" y="3" width="5" height="5"/>
+            <rect x="83" y="20" width="5" height="5"/>
+            <rect x="108" y="38" width="5" height="5"/>
+            <rect x="93" y="63" width="5" height="5"/>
+            <rect x="63" y="73" width="5" height="5"/>
+            <rect x="33" y="58" width="5" height="5"/>
         </g>
+    </g>
 
-        <!-- Virgo -->
-        <g class="constellation">
-            <path d="M700 420 L750 380 L790 425 L840 390 L885 440 L850 495 L800 475 L750 520 L710 480 L700 420"/>
-            <rect x="696" y="416" width="8" height="8"/>
-            <rect x="746" y="376" width="8" height="8"/>
-            <rect x="786" y="421" width="8" height="8"/>
-            <rect x="836" y="386" width="8" height="8"/>
-            <rect x="881" y="436" width="8" height="8"/>
-            <rect x="846" y="491" width="8" height="8"/>
-            <rect x="796" y="471" width="8" height="8"/>
-            <rect x="746" y="516" width="8" height="8"/>
-            <rect x="706" y="476" width="8" height="8"/>
+    <!-- Virgo -->
+    <g class="constellation" transform="translate(735 425) rotate(25) scale(.7)">
+        <path d="M45 100 L20 65 L0 30 L45 0 L90 25 L75 65 L45 100"/>
+        <g class="stars">
+            <rect x="43" y="98" width="5" height="5"/>
+            <rect x="18" y="63" width="5" height="5"/>
+            <rect x="-2" y="28" width="5" height="5"/>
+            <rect x="43" y="-2" width="5" height="5"/>
+            <rect x="88" y="23" width="5" height="5"/>
+            <rect x="73" y="63" width="5" height="5"/>
         </g>
-    </svg>
+    </g>
+
+</svg>
 
 </div>
 
