@@ -275,6 +275,21 @@ body {
     transform: scale(1.9);
     filter: drop-shadow(0 0 3px rgba(255, 244, 210, 0.9));
 }
+
+.named-star .halo {
+    fill: #FFF4D2;
+    opacity: 0.18;
+}
+
+.named-star .core {
+    fill: #FFF4D2;
+    filter: drop-shadow(0 0 4px rgba(255, 244, 210, 0.9));
+}
+
+.named-star .rays {
+    fill: #FFF4D2;
+    opacity: 0.85;
+}
     
 </style>
 </head>
@@ -412,6 +427,35 @@ body {
         </g>
     </g>
 
+    <!-- Polaris -->
+    <g class="named-star">
+        <rect class="halo" x="165" y="65" width="19" height="19"/>
+        <rect class="rays" x="172" y="57" width="5" height="5"/>
+        <rect class="rays" x="172" y="87" width="5" height="5"/>
+        <rect class="rays" x="157" y="72" width="5" height="5"/>
+        <rect class="rays" x="187" y="72" width="5" height="5"/>
+        <rect class="core" x="169" y="69" width="11" height="11"/>
+    </g>
+
+    <!-- Sirius -->
+    <g class="named-star">
+        <rect class="halo" x="545" y="515" width="23" height="23"/>
+        <rect class="rays" x="553" y="505" width="5" height="5"/>
+        <rect class="rays" x="553" y="543" width="5" height="5"/>
+        <rect class="rays" x="535" y="523" width="5" height="5"/>
+        <rect class="rays" x="573" y="523" width="5" height="5"/>
+        <rect class="core" x="549" y="519" width="15" height="15"/>
+    </g>
+    
+    <!-- Arcturus -->
+    <g class="named-star">
+        <rect class="halo" x="810" y="290" width="21" height="21"/>
+        <rect class="rays" x="818" y="281" width="5" height="5"/>
+        <rect class="rays" x="818" y="315" width="5" height="5"/>
+        <rect class="rays" x="801" y="298" width="5" height="5"/>
+        <rect class="rays" x="835" y="298" width="5" height="5"/>
+        <rect class="core" x="814" y="294" width="13" height="13"/>
+    </g>
 </svg>
 
 </div>
