@@ -1,1 +1,149 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai's Sonic Archive | Daily Log</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #080B19;
+    color: #F2D99A;
+    font-family: 'VT323', monospace;
+    overflow-x: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+        radial-gradient(2px 2px at 70% 60%, #B7A9D5, transparent),
+        radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+        radial-gradient(2px 2px at 85% 20%, #F2D99A, transparent);
+    background-size: 250px 250px;
+    animation: starDrift 60s linear infinite;
+}
+
+@keyframes starDrift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-250px); }
+}
+
+.page {
+    width: min(100% - 40px, 900px);
+    margin: 0 auto;
+    padding: 55px 0 80px;
+    text-align: center;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 35px;
+    color: #B7A9D5;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.back-link:hover {
+    color: #F2D99A;
+}
+
+h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(17px, 3vw, 27px);
+    line-height: 1.8;
+    margin: 0 0 15px;
+}
+
+.subtitle {
+    font-size: 25px;
+    color: #B7A9D5;
+    margin-bottom: 45px;
+}
+
+.date-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 50px;
+}
+
+.entry-moon {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: #34344D;
+    border: 3px solid #F2D99A;
+    box-shadow: 0 0 20px rgba(242,217,154,.3);
+    image-rendering: pixelated;
+}
+
+.phase-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #B7A9D5;
+}
+
+@media(max-width:600px) {
+    .page {
+        width: calc(100% - 28px);
+        padding-top: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<main class="page">
+
+    <a href="calendar.html" class="back-link">← BACK</a>
+
+    <h1 id="entry-date">JANUARY 01, 2027</h1>
+    <div class="subtitle">the song you orbitted around today.</div>
+    
+    <div class="date-details">
+        <div class="entry-moon phase-0" id="entry-moon"></div>
+        <div class="phase-name" id="phase-name">NEW MOON</div>
+    </div>
+
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const dateString = params.get("date");
+
+const selectedDate = dateString
+    ? new Date(dateString + "T12:00:00")
+    : new Date("2027-01-01T12:00:00");
+
+const months = [
+    "JANUARY", "FEBRUARY", "MARCH", "APRIL",
+    "MAY", "JUNE", "JULY", "AUGUST",
+    "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+];
+
+const month = months[selectedDate.getMonth()];
+const day = String(selectedDate.getDate()).padStart(2, "0");
+const year = selectedDate.getFullYear();
+
+document.getElementById("entry-date").textContent =
+    `${month} ${day}, ${year}`;
+</script>
+</body>
+</html>
