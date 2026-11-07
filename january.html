@@ -555,9 +555,11 @@ main {
 </main>
 
 <script>
-const daysInMonth = 31;
-const firstDay = 5; // January 1, 2027 = Friday
-const today = 6; // Temporary sample date
+const year = 2027;
+const month = 0; // January
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+const firstDay = new Date(year, month, 1).getDay();
+const today = 6;
 
 const calendar = document.getElementById("calendar");
 
@@ -569,7 +571,7 @@ for (let i = 0; i < firstDay; i++) {
 }
 
 function getMoonPhase(day) {
-    const date = new Date(Date.UTC(2027, 0, day, 12));
+    const date = new Date(Date.UTC(year, month, day, 12));
 
     const julianDate = date.getTime() / 86400000 + 2440587.5;
 
