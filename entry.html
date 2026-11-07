@@ -358,6 +358,53 @@ h1 {
     color: #81799B;
 }
 
+.save-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+#save-notes {
+    padding: 14px 22px;
+    background: #456B50;
+    border: 2px solid #F2D99A;
+    color: #F2D99A;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#save-notes:hover {
+    background: #F2D99A;
+    color: #080B19;
+    transform: translateY(-2px);
+}
+
+#save-status {
+    color: #B7A9D5;
+    font-size: 17px;
+}
+
+@media(max-width:600px) {
+    .save-area {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #save-notes {
+        width: 100%;
+        padding: 16px 10px;
+    }
+
+    #save-status {
+        text-align: center;
+    }
+}
+
 @media(max-width:600px) {
     .stats-grid {
         grid-template-columns: 1fr;
@@ -458,6 +505,12 @@ h1 {
         placeholder="dear diary..."
         rows="8"
     ></textarea>
+    <div class="save-area">
+        <button id="save-notes" type="button">
+            ★ SAVE LOG
+        </button>
+        <span id="save-status">AWAITING LOG</span>
+    </div>
 
 </section>
 </main>
