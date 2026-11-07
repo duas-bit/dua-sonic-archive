@@ -233,11 +233,116 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
+/* Pixel-art celestial layer */
+.celestial-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.constellations {
+    width: 100%;
+    height: 100%;
+    opacity: 0.72;
+}
+
+.constellation path {
+    fill: none;
+    stroke: rgba(183, 169, 213, 0.48);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+.constellation rect {
+    fill: #F2D99A;
+    filter: drop-shadow(0 0 3px rgba(242, 217, 154, 0.8));
+}
+    
 </style>
 </head>
 
 <body>
 <div class="sky"></div>
+<div class="celestial-layer" aria-hidden="true">
+
+    <svg class="constellations" viewBox="0 0 1000 700"
+         preserveAspectRatio="none"
+         shape-rendering="crispEdges"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Ursa Major -->
+        <g class="constellation">
+            <path d="M90 130 L145 105 L190 125 L230 95 L275 115 L310 160 L255 180 L205 155 L190 125"/>
+            <path d="M230 95 L250 55"/>
+            <rect x="86" y="126" width="8" height="8"/>
+            <rect x="141" y="101" width="8" height="8"/>
+            <rect x="186" y="121" width="8" height="8"/>
+            <rect x="226" y="91" width="8" height="8"/>
+            <rect x="271" y="111" width="8" height="8"/>
+            <rect x="306" y="156" width="8" height="8"/>
+            <rect x="251" y="176" width="8" height="8"/>
+            <rect x="201" y="151" width="8" height="8"/>
+            <rect x="246" y="51" width="8" height="8"/>
+        </g>
+
+        <!-- Cassiopeia -->
+        <g class="constellation">
+            <path d="M650 100 L700 145 L750 90 L805 145 L860 95"/>
+            <rect x="646" y="96" width="8" height="8"/>
+            <rect x="696" y="141" width="8" height="8"/>
+            <rect x="746" y="86" width="8" height="8"/>
+            <rect x="801" y="141" width="8" height="8"/>
+            <rect x="856" y="91" width="8" height="8"/>
+        </g>
+
+        <!-- Orion -->
+        <g class="constellation">
+            <path d="M420 350 L465 390 L510 350 M465 390 L470 450 L430 520 L410 570 M470 450 L520 520 L545 570 M420 350 L405 290 L445 270 L510 290 L510 350"/>
+            <rect x="416" y="346" width="8" height="8"/>
+            <rect x="461" y="386" width="8" height="8"/>
+            <rect x="506" y="346" width="8" height="8"/>
+            <rect x="466" y="446" width="8" height="8"/>
+            <rect x="426" y="516" width="8" height="8"/>
+            <rect x="406" y="566" width="8" height="8"/>
+            <rect x="516" y="516" width="8" height="8"/>
+            <rect x="541" y="566" width="8" height="8"/>
+            <rect x="401" y="286" width="8" height="8"/>
+            <rect x="441" y="266" width="8" height="8"/>
+            <rect x="506" y="286" width="8" height="8"/>
+        </g>
+
+        <!-- Capricorn -->
+        <g class="constellation">
+            <path d="M100 480 L150 440 L205 455 L250 420 L300 445 L335 490 L290 525 L235 510 L205 455"/>
+            <rect x="96" y="476" width="8" height="8"/>
+            <rect x="146" y="436" width="8" height="8"/>
+            <rect x="201" y="451" width="8" height="8"/>
+            <rect x="246" y="416" width="8" height="8"/>
+            <rect x="296" y="441" width="8" height="8"/>
+            <rect x="331" y="486" width="8" height="8"/>
+            <rect x="286" y="521" width="8" height="8"/>
+            <rect x="231" y="506" width="8" height="8"/>
+        </g>
+
+        <!-- Virgo -->
+        <g class="constellation">
+            <path d="M700 420 L750 380 L790 425 L840 390 L885 440 L850 495 L800 475 L750 520 L710 480 L700 420"/>
+            <rect x="696" y="416" width="8" height="8"/>
+            <rect x="746" y="376" width="8" height="8"/>
+            <rect x="786" y="421" width="8" height="8"/>
+            <rect x="836" y="386" width="8" height="8"/>
+            <rect x="881" y="436" width="8" height="8"/>
+            <rect x="846" y="491" width="8" height="8"/>
+            <rect x="796" y="471" width="8" height="8"/>
+            <rect x="746" y="516" width="8" height="8"/>
+            <rect x="706" y="476" width="8" height="8"/>
+        </g>
+    </svg>
+
+</div>
 
 <div class="explorer"
      role="button"
