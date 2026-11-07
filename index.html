@@ -399,7 +399,7 @@ body {
     .constellations {
         width: 100%;
         height: 100%;
-        transform: scale(1.35);
+        transform: scale(2.05);
         transform-origin: center;
     }
 }
@@ -412,7 +412,6 @@ body {
 <div class="celestial-layer" aria-hidden="true">
 
 <svg class="constellations" viewBox="0 0 1000 700"
-     preserveAspectRatio="xMidYMid meet"
      shape-rendering="crispEdges"
      xmlns="http://www.w3.org/2000/svg">
 
@@ -777,6 +776,19 @@ function nextNpcLine() {
 
     npcIndex = (npcIndex + 1) % npcLines.length;
 }
+
+const constellationSvg = document.querySelector(".constellations");
+
+function updateConstellationView() {
+    if (window.innerWidth <= 600) {
+        constellationSvg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+    } else {
+        constellationSvg.removeAttribute("preserveAspectRatio");
+    }
+}
+
+updateConstellationView();
+window.addEventListener("resize", updateConstellationView);
 
 </script>
 
