@@ -106,10 +106,266 @@ h1 {
     display: none;
 }
 
+/* NEW MOON */
+.entry-moon.phase-0 {
+    background:#34344D;
+}
+.entry-moon.phase-0::before {
+    display:none;
+}
+
+/* WAXING CRESCENT — illuminated on right */
+.entry-moon.phase-1::before {
+    clip-path:polygon(
+        0 0,100% 0,
+        100% 10%,94% 10%,
+        94% 20%,88% 20%,
+        88% 30%,82% 30%,
+        82% 40%,78% 40%,
+        78% 50%,78% 60%,
+        82% 60%,82% 70%,
+        88% 70%,88% 80%,
+        94% 80%,94% 90%,
+        100% 90%,100% 100%,
+        0 100%
+    );
+}
+
+/* FIRST QUARTER — illuminated on right */
+.entry-moon.phase-2::before {
+    clip-path:inset(0 50% 0 0);
+}
+
+.entry-moon.phase-3::before {
+    clip-path:polygon(
+        0 0,42% 0,
+        38% 10%,32% 10%,
+        32% 20%,26% 20%,
+        26% 30%,22% 30%,
+        22% 40%,20% 40%,
+        20% 60%,22% 60%,
+        22% 70%,26% 70%,
+        26% 80%,32% 80%,
+        32% 90%,38% 90%,
+        42% 100%,0 100%
+    );
+}
+
+/* FULL MOON */
+.entry-moon.phase-4 {
+    background:#DCCBA8;
+}
+.entry-moon.phase-4::before {
+    display:none;
+}
+
+.entry-moon.phase-5::before {
+    clip-path:polygon(
+        58% 0,100% 0,
+        100% 100%,58% 100%,
+        62% 90%,68% 90%,
+        68% 80%,74% 80%,
+        74% 70%,78% 70%,
+        78% 60%,80% 60%,
+        80% 40%,78% 40%,
+        78% 30%,74% 30%,
+        74% 20%,68% 20%,
+        68% 10%,62% 10%
+    );
+}
+
+/* THIRD QUARTER — illuminated on left */
+.entry-moon.phase-6::before {
+    clip-path:inset(0 0 0 50%);
+}
+
+/* WANING CRESCENT — illuminated on left */
+.entry-moon.phase-7::before {
+    clip-path:polygon(
+        0 0,100% 0,
+        100% 100%,0 100%,
+        0 90%,6% 90%,
+        6% 80%,12% 80%,
+        12% 70%,18% 70%,
+        18% 60%,22% 60%,
+        22% 50%,22% 40%,
+        18% 40%,18% 30%,
+        12% 30%,12% 20%,
+        6% 20%,6% 10%,
+        0 10%
+    );
+}
+
 .phase-name {
     font-family: 'Press Start 2P', monospace;
     font-size: 10px;
     color: #B7A9D5;
+}
+
+.soundtrack-section {
+    margin: 55px auto;
+    width: 100%;
+}
+
+.section-heading {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    margin-bottom: 25px;
+    color: #F2D99A;
+}
+
+.song-card {
+    border: 2px solid #B7A9D5;
+    background: rgba(183,169,213,.07);
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+.album-art {
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
+    background: #34344D;
+    border: 2px solid #F2D99A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+    color: #F2D99A;
+}
+
+.song-info {
+    flex: 1;
+    min-width: 130px;
+}
+
+.song-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    line-height: 2;
+    color: #F2D99A;
+}
+
+.song-artist {
+    font-size: 25px;
+    color: #FFFFFF;
+}
+
+.song-album {
+    font-size: 20px;
+    color: #B7A9D5;
+}
+
+.play-count {
+    text-align: center;
+}
+
+.play-number {
+    display: block;
+    font-size: 35px;
+    color: #F2D99A;
+}
+
+.play-label {
+    font-size: 16px;
+    color: #B7A9D5;
+}
+
+.spotify-link {
+    width: 100%;
+    text-align: center;
+    padding: 13px;
+    border: 1px solid #456B50;
+    color: #A8D5A2;
+    text-decoration: none;
+    font-size: 21px;
+}
+
+.spotify-link:hover {
+    background: #456B50;
+    color: white;
+}
+
+.listening-stats {
+    margin: 65px auto;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    padding: 25px 10px;
+    border: 1px solid #B7A9D5;
+    background: rgba(183,169,213,.06);
+}
+
+.stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 19px;
+    color: #F2D99A;
+    margin-bottom: 18px;
+}
+
+.stat-label {
+    font-size: 19px;
+    color: #B7A9D5;
+}
+
+.notes-section {
+    margin: 65px auto 30px;
+    text-align: left;
+}
+
+.notes-description {
+    font-size: 22px;
+    color: #B7A9D5;
+    margin-bottom: 20px;
+}
+
+#daily-notes {
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    padding: 22px;
+    background: rgba(183,169,213,.06);
+    border: 2px solid #B7A9D5;
+    color: #F2D99A;
+    font-family: 'VT323', monospace;
+    font-size: 23px;
+    line-height: 1.5;
+    outline: none;
+}
+
+#daily-notes:focus {
+    border-color: #F2D99A;
+}
+
+#daily-notes::placeholder {
+    color: #81799B;
+}
+
+.notes-footer {
+    margin-top: 12px;
+    text-align: right;
+    font-size: 16px;
+    color: #81799B;
+}
+
+@media(max-width:600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
 }
 
 @media(max-width:600px) {
@@ -137,6 +393,77 @@ h1 {
         <div class="phase-name" id="phase-name">NEW MOON</div>
     </div>
 
+<section class="soundtrack-section">
+
+    <div class="section-heading">TODAY'S SOUNDTRACK</div>
+
+    <div class="song-card">
+
+        <div class="album-art">
+            <span>♫</span>
+        </div>
+
+        <div class="song-info">
+            <div class="song-title">SONG TITLE</div>
+            <div class="song-artist">Artist Name</div>
+            <div class="song-album">Album Name</div>
+        </div>
+
+        <div class="play-count">
+            <span class="play-number">00</span>
+            <span class="play-label">PLAYS TODAY</span>
+        </div>
+
+        <a href="#" class="spotify-link" target="_blank">
+            OPEN IN SPOTIFY ↗
+        </a>
+
+    </div>
+
+</section>
+<section class="listening-stats">
+
+    <div class="section-heading">TRANSMISSION REPORT</div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-value" id="total-plays">00</div>
+            <div class="stat-label">TOTAL PLAYS</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="unique-tracks">00</div>
+            <div class="stat-label">UNIQUE TRACKS</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="listening-time">00</div>
+            <div class="stat-label">MINUTES LISTENED</div>
+        </div>
+
+    </div>
+    
+</section>
+<section class="notes-section">
+
+    <div class="section-heading">CAPTAIN'S LOG</div>
+
+    <div class="notes-description">
+        thoughts, transmissions, and everything in between.
+    </div>
+
+    <textarea
+        id="daily-notes"
+        placeholder="dear diary..."
+        rows="8"
+    ></textarea>
+
+    <div class="notes-footer">
+        <span>PERSONAL ENTRY · PRIVATE TRANSMISSION</span>
+    </div>
+
+</section>
 </main>
 
 <script>
