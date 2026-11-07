@@ -617,7 +617,7 @@ for (let day = 1; day <= daysInMonth; day++) {
     if (day <= today) {
         cell.style.cursor = "pointer";
         cell.addEventListener("click", () => {
-            window.location.href = `entry.html?day=${day}`;
+            window.location.href = `entry.html?date=${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
         });
     }
 
