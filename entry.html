@@ -82,13 +82,28 @@ h1 {
 }
 
 .entry-moon {
+    position: relative;
     width: 75px;
     height: 75px;
     border-radius: 50%;
-    background: #34344D;
+    overflow: hidden;
+    background: #DCCBA8;
     border: 3px solid #F2D99A;
     box-shadow: 0 0 20px rgba(242,217,154,.3);
     image-rendering: pixelated;
+}
+
+.entry-moon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: #34344D;
+}
+
+.entry-moon.phase-0::before,
+.entry-moon.phase-4::before {
+    display: none;
 }
 
 .phase-name {
@@ -144,6 +159,46 @@ const year = selectedDate.getFullYear();
 
 document.getElementById("entry-date").textContent =
     `${month} ${day}, ${year}`;
+
+function getMoonPhase(date) {
+    const julianDate = date.getTime() / 86400000 + 2440587.5;
+    const lunarCycle = 29.530588853;
+    const referenceNewMoon = 2451550.1;
+
+    const age = (
+        (julianDate - referenceNewMoon) % lunarCycle
+        + lunarCycle
+    ) % lunarCycle;
+
+    const progress = age / lunarCycle;
+
+    if (progress < 0.03 || progress >= 0.97) return 0;
+    if (progress < 0.22) return 1;
+    if (progress < 0.28) return 2;
+    if (progress < 0.47) return 3;
+    if (progress < 0.53) return 4;
+    if (progress < 0.72) return 5;
+    if (progress < 0.78) return 6;
+    return 7;
+}
+
+const phase = getMoonPhase(selectedDate);
+
+const phaseNames = [
+    "NEW MOON",
+    "WAXING CRESCENT",
+    "FIRST QUARTER",
+    "WAXING GIBBOUS",
+    "FULL MOON",
+    "WANING GIBBOUS",
+    "THIRD QUARTER",
+    "WANING CRESCENT"
+];
+
+const moon = document.getElementById("entry-moon");
+moon.className = `entry-moon phase-${phase}`;
+
+document.getElementById("phase-name").textContent = phaseNames[phase];
 </script>
 </body>
 </html>
