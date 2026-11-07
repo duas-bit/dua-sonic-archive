@@ -306,28 +306,28 @@ body {
 
 .shooting-star {
     opacity: 0;
-    animation: shootingStar 18s linear infinite;
+    animation: shootingStar 32s ease-in-out infinite;
 }
 
 .shooting-star.second {
-    animation-delay: 9s;
+    animation-delay: 40s;
 }
 
 @keyframes shootingStar {
-    0%, 8% {
+    0%, 15% {
         opacity: 0;
         transform: translate(0, 0);
     }
-    10% {
-        opacity: 0.75;
-    }
     18% {
-        opacity: 0.65;
-        transform: translate(-85px, 55px);
+        opacity: 0.85;
     }
-    23%, 100% {
+    28% {
+        opacity: 0.7;
+        transform: translate(-35px, 35px);
+    }
+    35%, 100% {
         opacity: 0;
-        transform: translate(-110px, 70px);
+        transform: translate(-45px, 45px);
     }
 }
 
@@ -549,35 +549,59 @@ body {
         <rect x="139" y="414" width="8" height="8" fill="#080B19"/>
     </g>
     
-    <!-- First shooting star -->
+    <!-- Angular shooting star: upper left -->
     <g class="shooting-star">
-        <rect x="665" y="220" width="4" height="4" fill="#FFF4D2"/>
-        <rect x="645" y="224" width="16" height="4" fill="#D8C9EB"/>
-        <rect x="625" y="228" width="16" height="4" fill="#B7A9D5"/>
-        <rect x="609" y="232" width="12" height="4" fill="#8F83B3"/>
-        <rect x="597" y="236" width="8" height="4" fill="#8F83B3"/>
+        <rect x="145" y="205" width="8" height="8" fill="#FFF4D2"/>
+        <rect x="153" y="205" width="8" height="8" fill="#FFF4D2"/>
+        <rect x="161" y="213" width="8" height="8" fill="#E3D5F5"/>
+        <rect x="169" y="221" width="8" height="8" fill="#D8C9EB"/>
+        <rect x="177" y="221" width="8" height="8" fill="#B7A9D5"/>
+        <rect x="185" y="229" width="8" height="8" fill="#8F83B3"/>
+        <rect x="193" y="229" width="8" height="8" fill="#8F83B3"/>
     </g>
     
-    <!-- Second shooting star -->
+    <!-- Angular shooting star: lower right -->
     <g class="shooting-star second">
-        <rect x="430" y="510" width="4" height="4" fill="#FFF4D2"/>
-        <rect x="410" y="514" width="16" height="4" fill="#D8C9EB"/>
-        <rect x="390" y="518" width="16" height="4" fill="#B7A9D5"/>
-        <rect x="374" y="522" width="12" height="4" fill="#8F83B3"/>
-        <rect x="362" y="526" width="8" height="4" fill="#8F83B3"/>
+        <rect x="850" y="440" width="8" height="8" fill="#FFF4D2"/>
+        <rect x="858" y="440" width="8" height="8" fill="#FFF4D2"/>
+        <rect x="866" y="448" width="8" height="8" fill="#E3D5F5"/>
+        <rect x="874" y="456" width="8" height="8" fill="#D8C9EB"/>
+        <rect x="882" y="456" width="8" height="8" fill="#B7A9D5"/>
+        <rect x="890" y="464" width="8" height="8" fill="#8F83B3"/>
+        <rect x="898" y="464" width="8" height="8" fill="#8F83B3"/>
     </g>
     
-    <!-- Distant asteroid cluster -->
+    <!-- Distant pixel meteor shower -->
     <g class="asteroid">
-        <rect x="555" y="105" width="4" height="4"/>
-        <rect x="563" y="101" width="4" height="4"/>
-        <rect x="567" y="109" width="4" height="4"/>
     
-        <rect x="590" y="130" width="4" height="4"/>
-        <rect x="598" y="134" width="4" height="4"/>
+        <!-- Meteor 1 -->
+        <rect x="545" y="100" width="5" height="5"/>
+        <rect x="550" y="105" width="5" height="5"/>
+        <rect x="555" y="110" width="5" height="5"/>
+        <rect x="560" y="110" width="5" height="5"/>
     
-        <rect x="520" y="125" width="4" height="4"/>
-        <rect x="528" y="121" width="4" height="4"/>
+        <!-- Meteor 2 -->
+        <rect x="600" y="125" width="5" height="5"/>
+        <rect x="605" y="130" width="5" height="5"/>
+        <rect x="610" y="135" width="5" height="5"/>
+        <rect x="615" y="140" width="5" height="5"/>
+    
+        <!-- Meteor 3 -->
+        <rect x="520" y="145" width="5" height="5"/>
+        <rect x="525" y="150" width="5" height="5"/>
+        <rect x="530" y="155" width="5" height="5"/>
+    
+        <!-- Meteor 4 -->
+        <rect x="655" y="85" width="5" height="5"/>
+        <rect x="660" y="90" width="5" height="5"/>
+        <rect x="665" y="95" width="5" height="5"/>
+        <rect x="670" y="100" width="5" height="5"/>
+    
+        <!-- Meteor 5 -->
+        <rect x="575" y="175" width="5" height="5"/>
+        <rect x="580" y="180" width="5" height="5"/>
+        <rect x="585" y="185" width="5" height="5"/>
+    
     </g>
 
 </svg>
