@@ -383,7 +383,7 @@ h1 {
 
 <main class="page">
 
-    <a href="calendar.html" class="back-link">← BACK</a>
+    <a href="#" class="back-link" id="back-link">← BACK</a>
 
     <h1 id="entry-date">JANUARY 01, 2027</h1>
     <div class="subtitle">the song you orbitted around today.</div>
@@ -411,7 +411,7 @@ h1 {
 
         <div class="play-count">
             <span class="play-number">00</span>
-            <span class="play-label">PLAYS TODAY</span>
+            <span class="play-label">PLAYS</span>
         </div>
 
         <a href="#" class="spotify-link" target="_blank">
@@ -450,7 +450,7 @@ h1 {
     <div class="section-heading">CAPTAIN'S LOG</div>
 
     <div class="notes-description">
-        thoughts, transmissions, and everything in between.
+        thoughts, events, and memories.
     </div>
 
     <textarea
@@ -458,10 +458,6 @@ h1 {
         placeholder="dear diary..."
         rows="8"
     ></textarea>
-
-    <div class="notes-footer">
-        <span>PERSONAL ENTRY · PRIVATE TRANSMISSION</span>
-    </div>
 
 </section>
 </main>
@@ -486,6 +482,24 @@ const year = selectedDate.getFullYear();
 
 document.getElementById("entry-date").textContent =
     `${month} ${day}, ${year}`;
+
+const calendarFiles = [
+    "january.html",
+    "february.html",
+    "march.html",
+    "april.html",
+    "may.html",
+    "june.html",
+    "july.html",
+    "august.html",
+    "september.html",
+    "october.html",
+    "november.html",
+    "december.html"
+];
+
+document.getElementById("back-link").href =
+    calendarFiles[selectedDate.getMonth()];
 
 function getMoonPhase(date) {
     const julianDate = date.getTime() / 86400000 + 2440587.5;
