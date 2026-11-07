@@ -290,6 +290,51 @@ body {
     fill: #FFF4D2;
     opacity: 0.85;
 }
+
+/* Distant pixel planets */
+.pixel-planet {
+    opacity: 0.38;
+}
+
+.pixel-planet .shadow {
+    opacity: 0.45;
+}
+
+.pixel-planet .highlight {
+    opacity: 0.8;
+}
+
+.shooting-star {
+    opacity: 0;
+    animation: shootingStar 18s linear infinite;
+}
+
+.shooting-star.second {
+    animation-delay: 9s;
+}
+
+@keyframes shootingStar {
+    0%, 8% {
+        opacity: 0;
+        transform: translate(0, 0);
+    }
+    10% {
+        opacity: 0.75;
+    }
+    18% {
+        opacity: 0.65;
+        transform: translate(-85px, 55px);
+    }
+    23%, 100% {
+        opacity: 0;
+        transform: translate(-110px, 70px);
+    }
+}
+
+.asteroid {
+    fill: #A9A0B8;
+    opacity: 0.28;
+}
     
 </style>
 </head>
@@ -456,6 +501,85 @@ body {
         <rect class="rays" x="835" y="298" width="5" height="5"/>
         <rect class="core" x="814" y="294" width="13" height="13"/>
     </g>
+
+<!-- Distant ringed planet -->
+<g class="pixel-planet">
+    <!-- Rings behind planet -->
+    <rect x="270" y="188" width="66" height="4" fill="#B7A9D5"/>
+    <rect x="258" y="192" width="88" height="4" fill="#8F83B3"/>
+    <rect x="266" y="196" width="72" height="4" fill="#B7A9D5"/>
+
+    <!-- Planet body -->
+    <rect x="282" y="168" width="36" height="4" fill="#D9C4A0"/>
+    <rect x="274" y="172" width="52" height="8" fill="#C6A984"/>
+    <rect x="270" y="180" width="60" height="20" fill="#A98C79"/>
+    <rect x="278" y="200" width="44" height="8" fill="#8C7180"/>
+    <rect x="286" y="208" width="28" height="4" fill="#78677F"/>
+
+    <!-- Pixel bands -->
+    <rect x="274" y="184" width="52" height="4" fill="#D9C4A0"/>
+    <rect x="282" y="196" width="40" height="4" fill="#D8B18F"/>
+    <rect x="286" y="176" width="12" height="4" fill="#F0D8B2"/>
+</g>
+    
+    <!-- Distant blue planet -->
+    <g class="pixel-planet">
+        <rect x="870" y="145" width="20" height="4" fill="#9CAED1"/>
+        <rect x="862" y="149" width="36" height="8" fill="#7189B4"/>
+        <rect x="858" y="157" width="44" height="20" fill="#657CA8"/>
+        <rect x="866" y="177" width="28" height="8" fill="#52678F"/>
+        <rect x="874" y="185" width="12" height="4" fill="#52678F"/>
+    
+        <rect x="866" y="153" width="8" height="4" fill="#C3D2E8"/>
+        <rect x="858" y="161" width="8" height="8" fill="#879BC3"/>
+        <rect x="878" y="169" width="16" height="4" fill="#8498BD"/>
+    </g>
+    
+    <!-- Small crescent planet -->
+    <g class="pixel-planet">
+        <rect x="135" y="390" width="8" height="4" fill="#D7C5A6"/>
+        <rect x="127" y="394" width="20" height="8" fill="#D7C5A6"/>
+        <rect x="123" y="402" width="24" height="12" fill="#B6A5C6"/>
+        <rect x="127" y="414" width="20" height="8" fill="#9C8BAE"/>
+        <rect x="135" y="422" width="8" height="4" fill="#9C8BAE"/>
+    
+        <!-- Shadow creates crescent -->
+        <rect x="139" y="394" width="8" height="8" fill="#080B19"/>
+        <rect x="135" y="402" width="12" height="12" fill="#080B19"/>
+        <rect x="139" y="414" width="8" height="8" fill="#080B19"/>
+    </g>
+    
+    <!-- First shooting star -->
+    <g class="shooting-star">
+        <rect x="665" y="220" width="4" height="4" fill="#FFF4D2"/>
+        <rect x="645" y="224" width="16" height="4" fill="#D8C9EB"/>
+        <rect x="625" y="228" width="16" height="4" fill="#B7A9D5"/>
+        <rect x="609" y="232" width="12" height="4" fill="#8F83B3"/>
+        <rect x="597" y="236" width="8" height="4" fill="#8F83B3"/>
+    </g>
+    
+    <!-- Second shooting star -->
+    <g class="shooting-star second">
+        <rect x="430" y="510" width="4" height="4" fill="#FFF4D2"/>
+        <rect x="410" y="514" width="16" height="4" fill="#D8C9EB"/>
+        <rect x="390" y="518" width="16" height="4" fill="#B7A9D5"/>
+        <rect x="374" y="522" width="12" height="4" fill="#8F83B3"/>
+        <rect x="362" y="526" width="8" height="4" fill="#8F83B3"/>
+    </g>
+    
+    <!-- Distant asteroid cluster -->
+    <g class="asteroid">
+        <rect x="555" y="105" width="4" height="4"/>
+        <rect x="563" y="101" width="4" height="4"/>
+        <rect x="567" y="109" width="4" height="4"/>
+    
+        <rect x="590" y="130" width="4" height="4"/>
+        <rect x="598" y="134" width="4" height="4"/>
+    
+        <rect x="520" y="125" width="4" height="4"/>
+        <rect x="528" y="121" width="4" height="4"/>
+    </g>
+
 </svg>
 
 </div>
