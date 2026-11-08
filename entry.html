@@ -633,28 +633,26 @@ async function loadEntry() {
             document.getElementById("spotify-link").href = spotify;
         }
 
+        const albumArt = document.querySelector(".album-art");
+        
         if (artwork) {
-            const albumArt = document.querySelector(".album-art");
             albumArt.style.backgroundImage = `url("${artwork}")`;
             albumArt.style.backgroundSize = "cover";
             albumArt.style.backgroundPosition = "center";
             albumArt.querySelector("span").style.display = "none";
+        } else {
+            albumArt.style.backgroundImage = "none";
+            albumArt.querySelector("span").style.display = "block";
         }
 
-        if (entry["TOTAL PLAYS"] !== "") {
-            document.getElementById("total-plays").textContent =
-                entry["TOTAL PLAYS"];
-        }
-
-        if (entry["UNIQUE TRACKS"] !== "") {
-            document.getElementById("unique-tracks").textContent =
-                entry["UNIQUE TRACKS"];
-        }
-
-        if (entry["MINUTES LISTENED"] !== "") {
-            document.getElementById("listening-time").textContent =
-                entry["MINUTES LISTENED"];
-        }
+        document.getElementById("total-plays").textContent =
+            entry["TOTAL PLAYS"] ?? "00";
+        
+        document.getElementById("unique-tracks").textContent =
+            entry["UNIQUE TRACKS"] ?? "00";
+        
+        document.getElementById("listening-time").textContent =
+            entry["MINUTES LISTENED"] ?? "00";
 
         notes.value = entry["PERSONAL NOTES"] || "";
         status.textContent = "LOG RETRIEVED.";
