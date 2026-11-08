@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai's Sonic Archive | Wrapped</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #080B19;
+    color: #F2D99A;
+    font-family: 'VT323', monospace;
+    overflow-x: hidden;
+}
+
+.sky {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 100px 120px, #F2D99A, transparent),
+        radial-gradient(1px 1px at 200px 80px, #fff, transparent);
+    background-size: 350px 250px;
+    animation: drift 120s linear infinite;
+    z-index: 0;
+}
+
+@keyframes drift {
+    to { background-position: 350px 250px; }
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    width: min(1000px, 94%);
+    margin: 0 auto;
+    padding: 35px 0 70px;
+}
+
+header {
+    text-align: center;
+    padding: 65px 15px 55px;
+}
+
+.eyebrow {
+    color: #B7A9D5;
+    font-size: 22px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+h1, h2, h3 {
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.8;
+}
+
+h1 {
+    font-size: clamp(22px, 5vw, 42px);
+    margin: 0;
+    text-shadow: 0 0 20px rgba(242,217,154,.3);
+}
+
+header p {
+    font-size: 27px;
+    margin: 20px 0 0;
+    color: #B7A9D5;
+}
+
+.section {
+    margin: 25px 0;
+    padding: 30px;
+    background: rgba(16,20,43,.78);
+    border: 1px solid rgba(242,217,154,.25);
+}
+
+.section-heading {
+    text-align: center;
+    font-size: clamp(12px, 2vw, 17px);
+    margin: 0 0 30px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #B7A9D5;
+    font-size: 22px;
+    margin: -18px 0 28px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    text-align: center;
+    padding: 22px 10px;
+    border: 1px solid rgba(183,169,213,.35);
+    background: rgba(8,11,25,.55);
+}
+
+.stat-number {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(15px, 2.5vw, 25px);
+    color: #E9A6C8;
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+.stat-label {
+    font-size: 21px;
+    color: #B7A9D5;
+}
+
+.highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.highlight {
+    text-align: center;
+    padding: 25px 15px;
+    border: 1px solid rgba(183,169,213,.35);
+}
+
+.highlight-label {
+    color: #B7A9D5;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.highlight-value {
+    font-size: 29px;
+    color: #E9A6C8;
+}
+
+.highlight-detail {
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+.ranking {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(183,169,213,.2);
+}
+
+.rank {
+    color: #B7A9D5;
+    font-size: 25px;
+    min-width: 30px;
+}
+
+.rank-artwork {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    background: #171B35;
+    flex-shrink: 0;
+}
+
+.rank-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.rank-name {
+    font-size: 24px;
+    color: #F2D99A;
+}
+
+.rank-detail {
+    font-size: 19px;
+    color: #B7A9D5;
+}
+
+.rank-plays {
+    font-size: 21px;
+    color: #E9A6C8;
+    white-space: nowrap;
+}
+
+.month-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.chart-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 45px;
+    align-items: center;
+    gap: 12px;
+}
+
+.chart-month {
+    font-size: 20px;
+    color: #B7A9D5;
+}
+
+.chart-track {
+    height: 17px;
+    background: rgba(183,169,213,.12);
+    overflow: hidden;
+}
+
+.chart-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #8D7CB7, #E9A6C8);
+    transition: width 1s ease;
+}
+
+.chart-count {
+    font-size: 20px;
+    text-align: right;
+}
+
+.month-card {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(183,169,213,.25);
+}
+
+.month-card:last-child {
+    border-bottom: none;
+}
+
+.month-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #E9A6C8;
+    margin-bottom: 12px;
+}
+
+.month-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.month-detail-label {
+    color: #B7A9D5;
+    font-size: 18px;
+}
+
+.month-detail-value {
+    font-size: 22px;
+    margin-top: 5px;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 25px;
+    padding: 60px 15px;
+}
+
+.error { color: #E9A6C8; }
+
+.back-button {
+    display: block;
+    text-align: center;
+    margin: 35px 0 0;
+    color: #F2D99A;
+    text-decoration: none;
+    font-size: 23px;
+}
+
+.back-button:hover { color: #E9A6C8; }
+
+footer {
+    text-align: center;
+    color: #B7A9D5;
+    font-size: 20px;
+    padding: 30px 15px;
+}
+
+@media(max-width: 600px) {
+    main { width: 94%; }
+
+    header { padding: 45px 10px 35px; }
+
+    .section { padding: 20px 13px; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .highlight-grid { grid-template-columns: 1fr; }
+
+    .month-details { grid-template-columns: 1fr; gap: 8px; }
+
+    .chart-row {
+        grid-template-columns: 72px 1fr 30px;
+        gap: 7px;
+    }
+
+    .chart-month { font-size: 17px; }
+
+    .rank-name { font-size: 21px; }
+
+    .rank-artwork {
+        width: 45px;
+        height: 45px;
+    }
+
+    .rank-plays { font-size: 18px; }
+}
+</style>
+</head>
+
+<body>
+<div class="sky"></div>
+
+<main>
+<header>
+    <div class="eyebrow">✦ SAI'S SONIC ARCHIVE ✦</div>
+    <h1 id="page-title">WRAPPED</h1>
+    <p id="page-subtitle">A year in music.</p>
+</header>
+
+<div id="loading" class="loading">✦ COLLECTING YOUR MEMORIES...</div>
+<div id="error" class="error" hidden></div>
+
+<div id="recap" hidden>
+
+    <section class="section">
+        <h2 class="section-heading">THE YEAR IN NUMBERS</h2>
+        <div class="stats-grid">
+            <div class="stat">
+                <span class="stat-number" id="total-plays">—</span>
+                <span class="stat-label">TOTAL PLAYS</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="unique-tracks">—</span>
+                <span class="stat-label">UNIQUE TRACKS</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="total-hours">—</span>
+                <span class="stat-label">HOURS LISTENED</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">YOUR LISTENING HABITS</h2>
+        <div class="highlight-grid">
+            <div class="highlight">
+                <div class="highlight-label">MOST ACTIVE DAY</div>
+                <div class="highlight-value" id="active-day">—</div>
+                <div class="highlight-detail" id="active-day-plays"></div>
+            </div>
+            <div class="highlight">
+                <div class="highlight-label">MOST ACTIVE MONTH</div>
+                <div class="highlight-value" id="active-month">—</div>
+                <div class="highlight-detail" id="active-month-plays"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">YOUR TOP 5 TRACKS</h2>
+        <div id="top-tracks"></div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">YOUR TOP 5 ARTISTS</h2>
+        <div id="top-artists"></div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">YOUR TOP 5 ALBUMS</h2>
+        <div id="top-albums"></div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">A YEAR OF LISTENING</h2>
+        <p class="section-subtitle">Your monthly play count</p>
+        <div id="monthly-chart" class="month-chart"></div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-heading">MONTH BY MONTH</h2>
+        <p class="section-subtitle">Twelve chapters of your year in music</p>
+        <div id="monthly-breakdown"></div>
+    </section>
+
+</div>
+
+<a class="back-button" href="index.html">← BACK TO THE UNIVERSE</a>
+
+<footer>✦ MADE OF MUSIC & MEMORIES ✦</footer>
+</main>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
+
+const params = new URLSearchParams(window.location.search);
+const year = Number(params.get("year")) || new Date().getFullYear();
+
+document.getElementById("page-title").textContent = year + " WRAPPED";
+document.getElementById("page-subtitle").textContent = "A year in music. A lifetime of memories.";
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function formatNumber(value) {
+    return Number(value || 0).toLocaleString();
+}
+
+function renderRanking(items, type) {
+    const container = document.getElementById(
+        type === "track" ? "top-tracks" :
+        type === "artist" ? "top-artists" : "top-albums"
+    );
+
+    if (!items || !items.length) {
+        container.innerHTML = '<p class="rank-detail">No listening data yet.</p>';
+        return;
+    }
+
+    container.innerHTML = items.map((item, index) => {
+        const artwork = type === "track" && item.artwork
+            ? `<img class="rank-artwork" src="${escapeHTML(item.artwork)}" alt="">`
+            : "";
+
+        const detail = type === "track"
+            ? item.artists
+            : type === "album"
+                ? item.artists
+                : "MOST PLAYED ARTIST";
+
+        const link = type === "track" && item.spotifyUrl
+            ? ` <a href="${escapeHTML(item.spotifyUrl)}" target="_blank" rel="noopener" style="color:#E9A6C8;text-decoration:none;">↗</a>`
+            : "";
+
+        return `
+            <div class="ranking">
+                <span class="rank">${String(index + 1).padStart(2, "0")}</span>
+                ${artwork}
+                <div class="rank-info">
+                    <div class="rank-name">${escapeHTML(item.name)}${link}</div>
+                    <div class="rank-detail">${escapeHTML(detail || "")}</div>
+                </div>
+                <span class="rank-plays">${formatNumber(item.plays)} PLAYS</span>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderMonthlyChart(monthlyPlays) {
+    const container = document.getElementById("monthly-chart");
+    const maximum = Math.max(1, ...monthlyPlays.map(item => item.plays));
+
+    container.innerHTML = monthlyPlays.map(item => {
+        const width = (item.plays / maximum) * 100;
+
+        return `
+            <div class="chart-row">
+                <span class="chart-month">${escapeHTML(item.month.slice(0, 3))}</span>
+                <div class="chart-track">
+                    <div class="chart-bar" style="width:${width}%"></div>
+                </div>
+                <span class="chart-count">${formatNumber(item.plays)}</span>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderMonthlyBreakdown(monthlyStats) {
+    const container = document.getElementById("monthly-breakdown");
+
+    container.innerHTML = monthlyStats.map(month => {
+        const topTrack = month.topTrack
+            ? `${escapeHTML(month.topTrack.name)} <span style="color:#B7A9D5;">(${formatNumber(month.topTrack.plays)})</span>`
+            : "—";
+
+        const topArtist = month.topArtist
+            ? `${escapeHTML(month.topArtist.name)} <span style="color:#B7A9D5;">(${formatNumber(month.topArtist.plays)})</span>`
+            : "—";
+
+        return `
+            <div class="month-card">
+                <div class="month-title">${escapeHTML(month.month)}</div>
+                <div class="month-details">
+                    <div>
+                        <div class="month-detail-label">TOP TRACK</div>
+                        <div class="month-detail-value">${topTrack}</div>
+                    </div>
+                    <div>
+                        <div class="month-detail-label">TOP ARTIST</div>
+                        <div class="month-detail-value">${topArtist}</div>
+                    </div>
+                    <div>
+                        <div class="month-detail-label">TIME LISTENED</div>
+                        <div class="month-detail-value">${formatNumber(month.totalMinutes)} MIN</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+async function loadAnnualRecap() {
+    try {
+        const response = await fetch(
+            `${API_URL}?action=annualRecap&year=${year}`
+        );
+
+        if (!response.ok) throw new Error("Request failed.");
+
+        const data = await response.json();
+
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById("total-plays").textContent =
+            formatNumber(data.totalPlays);
+
+        document.getElementById("unique-tracks").textContent =
+            formatNumber(data.uniqueTracks);
+
+        document.getElementById("total-hours").textContent =
+            formatNumber(data.totalHours);
+
+        document.getElementById("active-day").textContent =
+            data.mostActiveDay
+                ? new Date(data.mostActiveDay.date + "T12:00:00").toLocaleDateString(
+                    "en-CA",
+                    { month: "short", day: "numeric" }
+                )
+                : "—";
+
+        document.getElementById("active-day-plays").textContent =
+            data.mostActiveDay
+                ? `${formatNumber(data.mostActiveDay.plays)} PLAYS`
+                : "NO DATA";
+
+        document.getElementById("active-month").textContent =
+            data.mostActiveMonth || "—";
+
+        const activeMonth = data.monthlyStats.find(
+            item => item.month === data.mostActiveMonth
+        );
+
+        document.getElementById("active-month-plays").textContent =
+            activeMonth
+                ? `${formatNumber(activeMonth.totalPlays)} PLAYS`
+                : "NO DATA";
+
+        renderRanking(data.topTracks, "track");
+        renderRanking(data.topArtists, "artist");
+        renderRanking(data.topAlbums, "album");
+        renderMonthlyChart(data.monthlyPlays);
+        renderMonthlyBreakdown(data.monthlyStats);
+
+        document.getElementById("loading").hidden = true;
+        document.getElementById("recap").hidden = false;
+
+    } catch (error) {
+        console.error("Annual recap:", error);
+        document.getElementById("loading").hidden = true;
+        document.getElementById("error").hidden = false;
+        document.getElementById("error").textContent =
+            "WE COULDN'T LOAD THIS YEAR'S RECAP. PLEASE TRY AGAIN.";
+    }
+}
+
+loadAnnualRecap();
+</script>
+</body>
+</html>
