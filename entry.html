@@ -450,17 +450,17 @@ h1 {
         </div>
 
         <div class="song-info">
-            <div class="song-title">SONG TITLE</div>
-            <div class="song-artist">Artist Name</div>
-            <div class="song-album">Album Name</div>
+            <div class="song-title" id="song-title">SONG TITLE</div>
+            <div class="song-artist" id="song-artist">Artist Name</div>
+            <div class="song-album" id="song-album">Album Name</div>
         </div>
 
         <div class="play-count">
-            <span class="play-number">00</span>
+            <span class="play-number" id="play-count">00</span>
             <span class="play-label">PLAYS</span>
         </div>
 
-        <a href="#" class="spotify-link" target="_blank">
+        <a href="#" class="spotify-link" id="spotify-link" target="_blank" rel="noopener">
             ▶︎ OPEN IN SPOTIFY
         </a>
 
@@ -515,12 +515,21 @@ h1 {
 </main>
 
 <script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
+
 const params = new URLSearchParams(window.location.search);
 const dateString = params.get("date");
 
 const selectedDate = dateString
     ? new Date(dateString + "T12:00:00")
     : new Date("2027-01-01T12:00:00");
+
+const dateKey = [
+    selectedDate.getFullYear(),
+    String(selectedDate.getMonth() + 1).padStart(2, "0"),
+    String(selectedDate.getDate()).padStart(2, "0")
+].join("-");
 
 const months = [
     "JANUARY", "FEBRUARY", "MARCH", "APRIL",
@@ -536,18 +545,10 @@ document.getElementById("entry-date").textContent =
     `${month} ${day}, ${year}`;
 
 const calendarFiles = [
-    "january.html",
-    "february.html",
-    "march.html",
-    "april.html",
-    "may.html",
-    "june.html",
-    "july.html",
-    "august.html",
-    "september.html",
-    "october.html",
-    "november.html",
-    "december.html"
+    "january.html", "february.html", "march.html",
+    "april.html", "may.html", "june.html",
+    "july.html", "august.html", "september.html",
+    "october.html", "november.html", "december.html"
 ];
 
 document.getElementById("back-link").href =
@@ -578,20 +579,126 @@ function getMoonPhase(date) {
 const phase = getMoonPhase(selectedDate);
 
 const phaseNames = [
-    "NEW MOON",
-    "WAXING CRESCENT",
-    "FIRST QUARTER",
-    "WAXING GIBBOUS",
-    "FULL MOON",
-    "WANING GIBBOUS",
-    "THIRD QUARTER",
-    "WANING CRESCENT"
+    "NEW MOON", "WAXING CRESCENT", "FIRST QUARTER",
+    "WAXING GIBBOUS", "FULL MOON", "WANING GIBBOUS",
+    "THIRD QUARTER", "WANING CRESCENT"
 ];
 
 const moon = document.getElementById("entry-moon");
 moon.className = `entry-moon phase-${phase}`;
-
 document.getElementById("phase-name").textContent = phaseNames[phase];
+
+const notes = document.getElementById("daily-notes");
+const status = document.getElementById("save-status");
+
+async function loadEntry() {
+    status.textContent = "RETRIEVING LOG...";
+
+    try {
+        const response = await fetch(
+            `${API_URL}?date=${encodeURIComponent(dateKey)}`
+        );
+
+        const entry = await response.json();
+
+        if (entry.found === false) {
+            status.textContent = "NO LOG FOUND...";
+            return;
+        }
+
+        const song = entry["SONG TITLE"];
+        const artist = entry["ARTIST"];
+        const album = entry["ALBUM"];
+        const artwork = entry["ALBUM ARTWORK URL"];
+        const plays = entry["PLAY COUNT"];
+        const spotify = entry["SPOTIFY LINK"];
+
+        if (song) {
+            document.getElementById("song-title").textContent = song;
+        }
+
+        if (artist) {
+            document.getElementById("song-artist").textContent = artist;
+        }
+
+        if (album) {
+            document.getElementById("song-album").textContent = album;
+        }
+
+        if (plays !== "" && plays != null) {
+            document.getElementById("play-count").textContent = plays;
+        }
+
+        if (spotify) {
+            document.getElementById("spotify-link").href = spotify;
+        }
+
+        if (artwork) {
+            const albumArt = document.querySelector(".album-art");
+            albumArt.style.backgroundImage = `url("${artwork}")`;
+            albumArt.style.backgroundSize = "cover";
+            albumArt.style.backgroundPosition = "center";
+            albumArt.querySelector("span").style.display = "none";
+        }
+
+        if (entry["TOTAL PLAYS"] !== "") {
+            document.getElementById("total-plays").textContent =
+                entry["TOTAL PLAYS"];
+        }
+
+        if (entry["UNIQUE TRACKS"] !== "") {
+            document.getElementById("unique-tracks").textContent =
+                entry["UNIQUE TRACKS"];
+        }
+
+        if (entry["MINUTES LISTENED"] !== "") {
+            document.getElementById("listening-time").textContent =
+                entry["MINUTES LISTENED"];
+        }
+
+        notes.value = entry["PERSONAL NOTES"] || "";
+        status.textContent = "LOG RETRIEVED.";
+    } catch (error) {
+        console.error("Loading error:", error);
+        status.textContent = "UNABLE TO LOAD LOG.";
+    }
+}
+
+async function saveEntry() {
+    status.textContent = "SAVING LOG...";
+
+    const entry = {
+        date: dateKey,
+        "Moon Phase": phaseNames[phase],
+        "Personal Notes": notes.value
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(entry)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            status.textContent = "LOG SAVED SUCCESSFULLY!";
+        } else {
+            status.textContent = "SAVE FAILED. TRY AGAIN.";
+        }
+    } catch (error) {
+        console.error("Saving error:", error);
+        status.textContent = "SAVE ERROR. CHECK CONNECTION.";
+    }
+}
+
+document.getElementById("save-notes").addEventListener("click", saveEntry);
+
+loadEntry();
+
 </script>
 </body>
 </html>
