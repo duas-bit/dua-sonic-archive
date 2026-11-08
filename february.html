@@ -863,5 +863,50 @@ for (let day = 1; day <= daysInMonth; day++) {
     </div>
 
 </div>
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
+
+async function checkMonthlyPlaylistStatus() {
+    const button = document.getElementById("playlist-button");
+
+    try {
+        const response = await fetch(
+            `${API_URL}?action=monthlyStatus&year=${year}&month=${month + 1}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Status request failed.");
+        }
+
+        const status = await response.json();
+
+        if (status.alreadyCreated) {
+            button.textContent = "♫ PLAYLIST CREATED — OPEN IN SPOTIFY";
+            button.classList.add("created");
+            button.disabled = false;
+
+            button.onclick = () => {
+                window.open(status.playlistUrl, "_blank");
+            };
+
+        } else if (status.unlocked) {
+            button.textContent = "♫ MONTHLY PLAYLIST — UNLOCKED";
+            button.classList.add("unlocked");
+            button.disabled = true;
+
+        } else {
+            button.textContent = "♫ MONTHLY PLAYLIST — LOCKED";
+            button.disabled = true;
+        }
+
+    } catch (error) {
+        console.error("Monthly playlist status:", error);
+        button.textContent = "♫ PLAYLIST STATUS UNAVAILABLE";
+        button.disabled = true;
+    }
+}
+
+checkMonthlyPlaylistStatus();
+</script>
 </body>
 </html>
