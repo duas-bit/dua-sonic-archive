@@ -314,6 +314,74 @@ footer {
 
     .rank-plays { font-size: 18px; }
 }
+
+/* ANNUAL PIXEL SUN */
+
+.annual-sun {
+    display: grid;
+    grid-template-columns: repeat(25, 12px);
+    grid-auto-rows: 12px;
+    gap: 3px;
+    justify-content: center;
+    margin: 35px auto;
+    width: fit-content;
+}
+
+.sun-pixel {
+    width: 12px;
+    height: 12px;
+    background: #171B35;
+    image-rendering: pixelated;
+    transition: background .3s ease;
+}
+
+.sun-pixel.empty {
+    visibility: hidden;
+}
+
+.sun-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 18px;
+    max-width: 650px;
+    margin: 25px auto 5px;
+}
+
+.sun-legend span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 18px;
+    color: #B7A9D5;
+}
+
+.sun-legend i {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+}
+
+@media(max-width: 600px) {
+    .annual-sun {
+        grid-template-columns: repeat(25, 8px);
+        grid-auto-rows: 8px;
+        gap: 2px;
+    }
+
+    .sun-pixel {
+        width: 8px;
+        height: 8px;
+    }
+
+    .sun-legend {
+        gap: 10px;
+    }
+
+    .sun-legend span {
+        font-size: 16px;
+    }
+}
 </style>
 </head>
 
@@ -349,7 +417,23 @@ footer {
             </div>
         </div>
     </section>
-
+    
+    <section class="section">
+        <h2 class="section-heading">YOUR YEAR IN SUNLIGHT</h2>
+        <p class="section-subtitle">A pixel for every day you listened</p>
+    
+        <div id="annual-sun" class="annual-sun"></div>
+    
+        <div id="sun-legend" class="sun-legend">
+            <span><i style="background:#B96A70"></i>0–2 HRS</span>
+            <span><i style="background:#C58A65"></i>2–4 HRS</span>
+            <span><i style="background:#D6BD79"></i>4–6 HRS</span>
+            <span><i style="background:#E8E2D1"></i>6–8 HRS</span>
+            <span><i style="background:#789CC0"></i>8–12 HRS</span>
+            <span><i style="background:#8275B5"></i>12–24 HRS</span>
+        </div>
+    </section>
+    
     <section class="section">
         <h2 class="section-heading">YOUR LISTENING HABITS</h2>
         <div class="highlight-grid">
@@ -463,6 +547,42 @@ function renderRanking(items, type) {
     }).join("");
 }
 
+function renderAnnualSun(dailyMinutes) {
+    const container = document.getElementById("annual-sun");
+
+    const colors = [
+        { max: 120, color: "#B96A70" },
+        { max: 240, color: "#C58A65" },
+        { max: 360, color: "#D6BD79" },
+        { max: 480, color: "#E8E2D1" },
+        { max: 720, color: "#789CC0" },
+        { max: 1440, color: "#8275B5" }
+    ];
+
+    const totalDays = dailyMinutes.length;
+    const columns = 25;
+    const center = (columns - 1) / 2;
+    const centerRow = Math.ceil(totalDays / columns / 2);
+
+    const pixels = dailyMinutes.map((day, index) => {
+        const minutes = Number(day.minutes) || 0;
+
+        const color = minutes === 0
+            ? "#34364A"
+            : colors.find(item => minutes <= item.max)?.color || "#8275B5";
+
+        return `
+            <div
+                class="sun-pixel"
+                style="background:${color}"
+                title="${escapeHTML(day.date)} — ${minutes} minutes listened"
+            ></div>
+        `;
+    });
+
+    container.innerHTML = pixels.join("");
+}
+    
 function renderMonthlyChart(monthlyPlays) {
     const container = document.getElementById("monthly-chart");
     const maximum = Math.max(1, ...monthlyPlays.map(item => item.plays));
@@ -566,6 +686,7 @@ async function loadAnnualRecap() {
         renderRanking(data.topArtists, "artist");
         renderRanking(data.topAlbums, "album");
         renderMonthlyChart(data.monthlyPlays);
+        renderAnnualSun(data.dailyMinutes);
         renderMonthlyBreakdown(data.monthlyStats);
 
         document.getElementById("loading").hidden = true;
