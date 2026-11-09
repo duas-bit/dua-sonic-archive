@@ -499,24 +499,6 @@ footer {
     transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .section {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-    .ranking {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-    .month-card {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-}
-
 /* COUNT-UP STATISTICS */
 .stat-number {
     font-variant-numeric: tabular-nums;
@@ -554,6 +536,41 @@ footer {
 .month-card.month-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* SUN BREATHING GLOW */
+@keyframes sunBreathingGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(214, 189, 121, 0.12));
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgba(214, 189, 121, 0.35));
+    }
+}
+
+.annual-sun.sun-glowing {
+    animation: sunBreathingGlow 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .ranking {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .month-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .annual-sun.sun-glowing {
+        animation: none;
+    }
 }
 
 </style>
@@ -1017,8 +1034,43 @@ function animateCounter(id, finalValue, duration = 1400) {
     requestAnimationFrame(updateCounter);
 }
 
+/* COUNTER SCROLL REVEAL */
+function setupCounterReveal(data) {
+    const counters = [
+        { id: "total-plays", value: data.totalPlays },
+        { id: "unique-tracks", value: data.uniqueTracks },
+        { id: "total-hours", value: data.totalHours }
+    ];
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+
+                animateCounter(
+                    element.id,
+                    Number(element.dataset.counterTarget)
+                );
+
+                observer.unobserve(element);
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    counters.forEach(counter => {
+        const element = document.getElementById(counter.id);
+
+        if (element) {
+            element.dataset.counterTarget = counter.value;
+            observer.observe(element);
+        }
+    });
+}
+    
 /* SUN SCROLL REVEAL */
-function setupSunReveal() {
+function setupSunReveal(dailyMinutes) {
     const sun = document.getElementById("annual-sun");
 
     if (!sun) return;
@@ -1027,6 +1079,12 @@ function setupSunReveal() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 sun.classList.add("sun-animate");
+                
+                const revealDuration = dailyMinutes.length * 4 + 450 + 8 * 130;
+                
+                setTimeout(() => {
+                    sun.classList.add("sun-glowing");
+                }, revealDuration);
                 observer.unobserve(sun);
             }
         });
@@ -1051,15 +1109,15 @@ async function loadAnnualRecap() {
 
         document.getElementById("total-plays").textContent =
             formatNumber(data.totalPlays);
-            animateCounter("total-plays", data.totalPlays);
+            setupCounterReveal(data);
 
         document.getElementById("unique-tracks").textContent =
             formatNumber(data.uniqueTracks);
-            animateCounter("unique-tracks", data.uniqueTracks);
+            setupCounterReveal(data);
 
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
-            animateCounter("total-hours", data.totalHours);
+            setupCounterReveal(data);
 
         document.getElementById("active-day").textContent =
             data.mostActiveDay
@@ -1092,7 +1150,7 @@ async function loadAnnualRecap() {
         renderMonthlyChart(data.monthlyPlays);
         renderAnnualSun(data.dailyMinutes);
         setupSunTooltip();
-        setupSunReveal();
+        setupSunReveal(data.dailyMinutes);
         renderMonthlyBreakdown(data.monthlyStats);
 
         document.getElementById("loading").hidden = true;
