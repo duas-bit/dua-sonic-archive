@@ -367,22 +367,22 @@ body.traveling .year-navigation {
 }
 
 body.traveling.travel-back .solar-system {
-    transform: translate(calc(-50% - 35vw), -50%) scale(.92);
-    opacity: .2;
-}
-
-body.traveling.travel-forward .solar-system {
     transform: translate(calc(-50% + 35vw), -50%) scale(.92);
     opacity: .2;
 }
 
+body.traveling.travel-forward .solar-system {
+    transform: translate(calc(-50% - 35vw), -50%) scale(.92);
+    opacity: .2;
+}
+
 body.traveling.travel-back .sky {
-    transform: translateX(-35vw) scale(.92);
+    transform: translateX(35vw) scale(.92);
     opacity: .2;
 }
 
 body.traveling.travel-forward .sky {
-    transform: translateX(35vw) scale(.92);
+    transform: translateX(-35vw) scale(.92);
     opacity: .2;
 }
 
