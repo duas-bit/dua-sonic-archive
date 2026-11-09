@@ -644,17 +644,49 @@ async function loadEntry() {
             return;
         }
         
-        // Populate all listening information.
-        Object.entries(fields).forEach(([elementId, fieldName]) => {
-            document.getElementById(elementId).textContent =
-                displayValue(entry[fieldName]);
-        });
+        // Check whether this date has no listening data.
+        const isNoMusicDay = [
+            "SONG TITLE",
+            "ARTIST",
+            "ALBUM",
+            "PLAY COUNT",
+            "TOTAL PLAYS",
+            "UNIQUE TRACKS",
+            "MINUTES LISTENED"
+        ].every(field =>
+            String(entry[field] || "").trim().toLowerCase() === "no data"
+        );
+        
+        if (isNoMusicDay) {
+            Object.keys(fields).forEach(elementId => {
+                document.getElementById(elementId).textContent = "NO MUSIC";
+            });
+        
+            const albumArt = document.querySelector(".album-art");
+            albumArt.style.backgroundImage = "none";
+            albumArt.querySelector("span").textContent = "♫";
+            albumArt.querySelector("span").style.display = "block";
+        
+            const spotifyLink = document.getElementById("spotify-link");
+            spotifyLink.textContent = "NO MUSIC RECORDED";
+            spotifyLink.removeAttribute("href");
+        
+        } else {
+            Object.entries(fields).forEach(([elementId, fieldName]) => {
+                document.getElementById(elementId).textContent =
+                    displayValue(entry[fieldName]);
+            });
+        }
 
         // Album artwork.
         const albumArt = document.querySelector(".album-art");
         const artwork = entry["ALBUM ARTWORK URL"];
 
-        if (artwork && String(artwork).trim() !== "") {
+        if (isNoMusicDay) {
+            albumArt.style.backgroundImage = "none";
+            albumArt.querySelector("span").textContent = "♫";
+            albumArt.querySelector("span").style.display = "block";
+        } else if (artwork && String(artwork).trim() !== "") {
             albumArt.style.backgroundImage = `url("${artwork}")`;
             albumArt.style.backgroundSize = "cover";
             albumArt.style.backgroundPosition = "center";
@@ -669,8 +701,11 @@ async function loadEntry() {
         // Spotify link.
         const spotifyLink = document.getElementById("spotify-link");
         const spotify = entry["SPOTIFY LINK"];
-
-        if (spotify && String(spotify).trim() !== "") {
+        
+        if (isNoMusicDay) {
+            spotifyLink.textContent = "NO MUSIC RECORDED";
+            spotifyLink.removeAttribute("href");
+        } else if (spotify && String(spotify).trim() !== "") {
             spotifyLink.href = spotify;
             spotifyLink.textContent = "▶︎ OPEN IN SPOTIFY";
         } else {
@@ -681,7 +716,9 @@ async function loadEntry() {
         // Personal notes remain editable.
         notes.value = entry["PERSONAL NOTES"] || "";
 
-        status.textContent = "LOG RETRIEVED.";
+        status.textContent = isNoMusicDay
+            ? "NO MUSIC DAY."
+            : "LOG RETRIEVED.";
 
     } catch (error) {
         console.error("Loading error:", error);
