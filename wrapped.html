@@ -510,6 +510,11 @@ footer {
         transform: none;
         transition: none;
     }
+    .month-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 /* COUNT-UP STATISTICS */
@@ -533,6 +538,20 @@ footer {
 }
 
 .ranking.rank-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* MONTHLY CARD REVEAL */
+.month-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s ease;
+}
+
+.month-card.month-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -936,6 +955,32 @@ function renderMonthlyBreakdown(monthlyStats) {
             </div>
         `;
     }).join("");
+
+    const cards = container.querySelectorAll(".month-card");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        cards.forEach(card => card.classList.add("month-visible"));
+        return;
+    }
+
+    const monthObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const card = entry.target;
+                const index = Array.from(cards).indexOf(card);
+
+                setTimeout(() => {
+                    card.classList.add("month-visible");
+                }, index * 250);
+
+                observer.unobserve(card);
+            }
+        });
+    }, {
+        threshold: 0.15
+    });
+
+    cards.forEach(card => monthObserver.observe(card));
 }
 
 /* COUNT-UP ANIMATION */
