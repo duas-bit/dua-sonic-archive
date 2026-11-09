@@ -331,30 +331,6 @@ footer {
 }
 
 /* PIXEL SUN CORONA */
-
-.annual-sun::before {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: #D6BD79;
-    opacity: 0.8;
-    z-index: -1;
-
-    box-shadow:
-        0 -205px #D6BD79,
-        0 205px #D6BD79,
-        -205px 0 #D6BD79,
-        205px 0 #D6BD79,
-        -145px -145px #C58A65,
-        145px -145px #C58A65,
-        -145px 145px #C58A65,
-        145px 145px #C58A65;
-}
-
 .sun-pixel {
     width: 12px;
     height: 12px;
@@ -409,21 +385,6 @@ footer {
     .sun-legend span {
         font-size: 16px;
     }
-    
-    .annual-sun::before {
-        width: 8px;
-        height: 8px;
-    
-        box-shadow:
-            0 -140px #D6BD79,
-            0 140px #D6BD79,
-            -140px 0 #D6BD79,
-            140px 0 #D6BD79,
-            -100px -100px #C58A65,
-            100px -100px #C58A65,
-            -100px 100px #C58A65,
-            100px 100px #C58A65;
-    }
 }
     
 .sun-pixel {
@@ -469,6 +430,43 @@ footer {
 .sun-pixel:not(.empty) {
     animation: sunPixelReveal .45s ease-out both;
     animation-delay: calc(var(--pixel-index) * 4ms);
+}
+
+/* ANIMATED SUN CORONA */
+
+.sun-ray {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    animation: sunPixelReveal .45s ease-out both;
+}
+
+.ray-n  { transform: translate(-50%, -50%) translateY(-205px); }
+.ray-s  { transform: translate(-50%, -50%) translateY(205px); }
+.ray-e  { transform: translate(-50%, -50%) translateX(205px); }
+.ray-w  { transform: translate(-50%, -50%) translateX(-205px); }
+.ray-ne { transform: translate(-50%, -50%) translate(145px, -145px); }
+.ray-nw { transform: translate(-50%, -50%) translate(-145px, -145px); }
+.ray-se { transform: translate(-50%, -50%) translate(145px, 145px); }
+.ray-sw { transform: translate(-50%, -50%) translate(-145px, 145px); }
+
+@media(max-width: 600px) {
+    .sun-ray {
+        width: 8px;
+        height: 8px;
+    }
+
+    .ray-n  { transform: translate(-50%, -50%) translateY(-140px); }
+    .ray-s  { transform: translate(-50%, -50%) translateY(140px); }
+    .ray-e  { transform: translate(-50%, -50%) translateX(140px); }
+    .ray-w  { transform: translate(-50%, -50%) translateX(-140px); }
+    .ray-ne { transform: translate(-50%, -50%) translate(100px, -100px); }
+    .ray-nw { transform: translate(-50%, -50%) translate(-100px, -100px); }
+    .ray-se { transform: translate(-50%, -50%) translate(100px, 100px); }
+    .ray-sw { transform: translate(-50%, -50%) translate(-100px, 100px); }
 }
 </style>
 </head>
@@ -732,9 +730,27 @@ function renderAnnualSun(dailyMinutes) {
         `;
     });
 
-    container.innerHTML = grid.map(pixel =>
+    const pixelsHTML = grid.map(pixel =>
         pixel || '<div class="sun-pixel empty"></div>'
     ).join("");
+    
+    const rayDirections = [
+        "n", "ne", "e", "se", "s", "sw", "w", "nw"
+    ];
+    
+    const coronaDelay = dailyMinutes.length * 4 + 450;
+    
+    const raysHTML = rayDirections.map((direction, index) => `
+        <div
+            class="sun-ray ray-${direction}"
+            style="
+                background:${index % 2 === 0 ? "#D6BD79" : "#C58A65"};
+                animation-delay:${coronaDelay + index * 130}ms;
+            "
+        ></div>
+    `).join("");
+    
+    container.innerHTML = pixelsHTML + raysHTML;
 }
 
 function setupSunTooltip() {
