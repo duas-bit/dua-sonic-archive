@@ -552,7 +552,7 @@ const calendarFiles = [
 ];
 
 document.getElementById("back-link").href =
-    calendarFiles[selectedDate.getMonth()];
+    `${calendarFiles[selectedDate.getMonth()]}?year=${year}`;
 
 function getMoonPhase(date) {
     const julianDate = date.getTime() / 86400000 + 2440587.5;
@@ -594,6 +594,16 @@ const status = document.getElementById("save-status");
 async function loadEntry() {
     status.textContent = "RETRIEVING LOG...";
 
+    const noData = "No data found";
+
+    function displayValue(value) {
+        return value !== null &&
+               value !== undefined &&
+               String(value).trim() !== ""
+            ? value
+            : noData;
+    }
+
     try {
         const response = await fetch(
             `${API_URL}?date=${encodeURIComponent(dateKey)}`
@@ -601,61 +611,71 @@ async function loadEntry() {
 
         const entry = await response.json();
 
+        const fields = {
+            "song-title": "SONG TITLE",
+            "song-artist": "ARTIST",
+            "song-album": "ALBUM",
+            "play-count": "PLAY COUNT",
+            "total-plays": "TOTAL PLAYS",
+            "unique-tracks": "UNIQUE TRACKS",
+            "listening-time": "MINUTES LISTENED"
+        };
+
         if (entry.found === false) {
-            status.textContent = "NO LOG FOUND...";
+            Object.entries(fields).forEach(([elementId]) => {
+                document.getElementById(elementId).textContent = noData;
+            });
+
+            document.querySelector(".album-art span").textContent = noData;
+
+            const spotifyLink = document.getElementById("spotify-link");
+            spotifyLink.textContent = noData;
+            spotifyLink.removeAttribute("href");
+
+            notes.value = "";
+            status.textContent = "NO DATA FOUND.";
             return;
         }
 
-        const song = entry["SONG TITLE"];
-        const artist = entry["ARTIST"];
-        const album = entry["ALBUM"];
-        const artwork = entry["ALBUM ARTWORK URL"];
-        const plays = entry["PLAY COUNT"];
-        const spotify = entry["SPOTIFY LINK"];
+        // Populate all listening information.
+        Object.entries(fields).forEach(([elementId, fieldName]) => {
+            document.getElementById(elementId).textContent =
+                displayValue(entry[fieldName]);
+        });
 
-        if (song) {
-            document.getElementById("song-title").textContent = song;
-        }
-
-        if (artist) {
-            document.getElementById("song-artist").textContent = artist;
-        }
-
-        if (album) {
-            document.getElementById("song-album").textContent = album;
-        }
-
-        if (plays !== "" && plays != null) {
-            document.getElementById("play-count").textContent = plays;
-        }
-
-        if (spotify) {
-            document.getElementById("spotify-link").href = spotify;
-        }
-
+        // Album artwork.
         const albumArt = document.querySelector(".album-art");
-        
-        if (artwork) {
+        const artwork = entry["ALBUM ARTWORK URL"];
+
+        if (artwork && String(artwork).trim() !== "") {
             albumArt.style.backgroundImage = `url("${artwork}")`;
             albumArt.style.backgroundSize = "cover";
             albumArt.style.backgroundPosition = "center";
             albumArt.querySelector("span").style.display = "none";
         } else {
             albumArt.style.backgroundImage = "none";
+            albumArt.querySelector("span").textContent = noData;
             albumArt.querySelector("span").style.display = "block";
+            albumArt.querySelector("span").style.fontSize = "15px";
         }
 
-        document.getElementById("total-plays").textContent =
-            entry["TOTAL PLAYS"] ?? "00";
-        
-        document.getElementById("unique-tracks").textContent =
-            entry["UNIQUE TRACKS"] ?? "00";
-        
-        document.getElementById("listening-time").textContent =
-            entry["MINUTES LISTENED"] ?? "00";
+        // Spotify link.
+        const spotifyLink = document.getElementById("spotify-link");
+        const spotify = entry["SPOTIFY LINK"];
 
+        if (spotify && String(spotify).trim() !== "") {
+            spotifyLink.href = spotify;
+            spotifyLink.textContent = "▶︎ OPEN IN SPOTIFY";
+        } else {
+            spotifyLink.textContent = noData;
+            spotifyLink.removeAttribute("href");
+        }
+
+        // Personal notes remain editable.
         notes.value = entry["PERSONAL NOTES"] || "";
+
         status.textContent = "LOG RETRIEVED.";
+
     } catch (error) {
         console.error("Loading error:", error);
         status.textContent = "UNABLE TO LOAD LOG.";
