@@ -450,6 +450,26 @@ footer {
 .sun-tooltip.visible {
     display: block;
 }
+
+@keyframes sunPixelReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.sun-pixel:not(.empty) {
+    animation: sunPixelReveal .45s ease-out both;
+    animation-delay: calc(var(--pixel-index) * 4ms);
+}
 </style>
 </head>
 
@@ -704,7 +724,7 @@ function renderAnnualSun(dailyMinutes) {
         grid[py * size + px] = `
             <div
                 class="sun-pixel"
-                style="background:${color}"
+                style="background:${color}; --pixel-index:${index}"
                 data-date="${escapeHTML(day.date)}"
                 data-duration="${duration}"
                 data-category="${category}"
