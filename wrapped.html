@@ -737,7 +737,6 @@ function renderRanking(items, type) {
             </div>
         `;
     }).join("");
-
     const rankings = container.querySelectorAll(".ranking");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -745,11 +744,24 @@ function renderRanking(items, type) {
         return;
     }
 
-    rankings.forEach((item, index) => {
-        setTimeout(() => {
-            item.classList.add("rank-visible");
-        }, index * 450);
+    const rankingObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const item = entry.target;
+                const index = Array.from(rankings).indexOf(item);
+
+                setTimeout(() => {
+                    item.classList.add("rank-visible");
+                }, index * 450);
+
+                observer.unobserve(item);
+            }
+        });
+    }, {
+        threshold: 0.15
     });
+
+    rankings.forEach(item => rankingObserver.observe(item));
 }
 
 function renderAnnualSun(dailyMinutes) {
@@ -875,9 +887,12 @@ function setupSunTooltip() {
     const tooltip = document.getElementById("sun-tooltip");
     const sun = document.getElementById("annual-sun");
 
+    if (!tooltip || !sun) return;
+
     sun.addEventListener("pointerover", event => {
         const pixel = event.target.closest(".sun-pixel");
-        if (!pixel || !sun.contains(pixel)) return;
+
+        if (!pixel || pixel.classList.contains("empty")) return;
 
         tooltip.innerHTML = `
             <div>${pixel.dataset.date}</div>
@@ -889,14 +904,16 @@ function setupSunTooltip() {
     });
 
     sun.addEventListener("pointermove", event => {
+        const pixel = event.target.closest(".sun-pixel");
+
+        if (!pixel || pixel.classList.contains("empty")) return;
+
         tooltip.style.left = `${event.clientX + 14}px`;
         tooltip.style.top = `${event.clientY + 14}px`;
     });
 
-    sun.addEventListener("pointerout", event => {
-        if (event.target.closest(".sun-pixel")) {
-            tooltip.classList.remove("visible");
-        }
+    sun.addEventListener("pointerleave", () => {
+        tooltip.classList.remove("visible");
     });
 }
     
