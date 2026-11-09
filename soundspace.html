@@ -319,6 +319,12 @@ h1 {
 .year-nav-button:disabled {
     opacity: .35;
     cursor: default;
+    #travel-back {
+    margin-right: auto;
+    }
+    #travel-forward {
+        margin-left: auto;
+    }
 }
 
 @media (max-width: 600px) {
@@ -360,13 +366,21 @@ body.traveling .year-navigation {
     transition: filter 2s ease, transform 2.5s ease, opacity 2s ease;
 }
 
-body.traveling.travel-back .solar-system,
+body.traveling.travel-back .solar-system {
+    transform: translate(calc(-50% - 35vw), -50%) scale(.92);
+    opacity: .2;
+}
+
+body.traveling.travel-forward .solar-system {
+    transform: translate(calc(-50% + 35vw), -50%) scale(.92);
+    opacity: .2;
+}
+
 body.traveling.travel-back .sky {
     transform: translateX(-35vw) scale(.92);
     opacity: .2;
 }
 
-body.traveling.travel-forward .solar-system,
 body.traveling.travel-forward .sky {
     transform: translateX(35vw) scale(.92);
     opacity: .2;
@@ -471,17 +485,17 @@ body.traveling.travel-forward .sky {
     0% {
         opacity: 0;
         filter: blur(18px);
-        transform: scale(1.12);
+        transform: translate(-50%, -50%) scale(1.12);
     }
     65% {
         opacity: 1;
         filter: blur(3px);
-        transform: scale(1.025);
+        transform: translate(-50%, -50%) scale(1.025);
     }
     100% {
         opacity: 1;
         filter: blur(0);
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
