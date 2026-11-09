@@ -384,14 +384,12 @@ body.traveling.travel-forward .sky {
     opacity: 0;
     filter: blur(22px);
     transform: translate(-50%, -50%) scale(.65);
-    background: radial-gradient(
-        circle at 35% 30%,
-        #F2D99A,
-        #B7A9D5 48%,
-        #514568 78%,
-        #171B35
-    );
-    box-shadow: 0 0 90px rgba(183, 169, 213, .25);
+    background:
+        radial-gradient(circle at 35% 30%, #E9C98A, #A96E57 55%, #493A59);
+        
+    box-shadow:
+        0 0 25px rgba(226, 174, 116, 0.45),
+        0 0 65px rgba(169, 110, 87, 0.2);
     transition:
         opacity 2s ease,
         filter 2.5s ease,
@@ -739,13 +737,13 @@ function travelToYear(direction) {
     // 5. Gradually zoom into the destination.
     setTimeout(() => {
         overlay.classList.add("zoom");
-    }, 7100);
+    }, 8500);
 
     // 6. Arrive at the destination year's page.
     setTimeout(() => {
         window.location.href =
             `solar-system.html?year=${currentYear + direction}&arrive=1`;
-    }, 8800);
+    }, 10300);
 }
 
 backButton.addEventListener("click", () => travelToYear(-1));
