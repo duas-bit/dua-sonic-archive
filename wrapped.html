@@ -326,6 +326,33 @@ footer {
     margin: 35px auto;
     width: fit-content;
     padding: 12px;
+    position: relative;
+    isolation: isolate;
+}
+
+/* PIXEL SUN CORONA */
+
+.annual-sun::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #D6BD79;
+    opacity: 0.8;
+    z-index: -1;
+
+    box-shadow:
+        0 -205px #D6BD79,
+        0 205px #D6BD79,
+        -205px 0 #D6BD79,
+        205px 0 #D6BD79,
+        -145px -145px #C58A65,
+        145px -145px #C58A65,
+        -145px 145px #C58A65,
+        145px 145px #C58A65;
 }
 
 .sun-pixel {
@@ -381,6 +408,21 @@ footer {
 
     .sun-legend span {
         font-size: 16px;
+    }
+    
+    .annual-sun::before {
+        width: 8px;
+        height: 8px;
+    
+        box-shadow:
+            0 -140px #D6BD79,
+            0 140px #D6BD79,
+            -140px 0 #D6BD79,
+            140px 0 #D6BD79,
+            -100px -100px #C58A65,
+            100px -100px #C58A65,
+            -100px 100px #C58A65,
+            100px 100px #C58A65;
     }
 }
 </style>
