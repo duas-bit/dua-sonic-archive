@@ -583,16 +583,16 @@ footer {
 <header>
     <div class="eyebrow">✦ SAI'S SONIC ARCHIVE ✦</div>
     <h1 id="page-title">WRAPPED</h1>
-    <p id="page-subtitle">A year in music.</p>
+    <p id="page-subtitle">A year in music holds a lifetime of memories.</p>
 </header>
 
-<div id="loading" class="loading">✦ COLLECTING YOUR MEMORIES...</div>
+<div id="loading" class="loading">COLLECTING YOUR MEMORIES...</div>
 <div id="error" class="error" hidden></div>
 
 <div id="recap" hidden>
 
     <section class="section">
-        <h2 class="section-heading">THE YEAR IN NUMBERS</h2>
+        <h2 class="section-heading">YOUR YEAR IN NUMBERS</h2>
         <div class="stats-grid">
             <div class="stat">
                 <span class="stat-number" id="total-plays">—</span>
@@ -627,7 +627,7 @@ footer {
     <div id="sun-tooltip" class="sun-tooltip"></div>
     
     <section class="section">
-        <h2 class="section-heading">YOUR LISTENING HABITS</h2>
+        <h2 class="section-heading">SOMEONE'S OBSESSED...</h2>
         <div class="highlight-grid">
             <div class="highlight">
                 <div class="highlight-label">MOST ACTIVE DAY</div>
@@ -658,22 +658,18 @@ footer {
     </section>
 
     <section class="section">
-        <h2 class="section-heading">A YEAR OF LISTENING</h2>
-        <p class="section-subtitle">Your monthly play count</p>
+        <h2 class="section-heading">YOUR TRAJECTORY</h2>
         <div id="monthly-chart" class="month-chart"></div>
     </section>
 
     <section class="section">
         <h2 class="section-heading">MONTH BY MONTH</h2>
-        <p class="section-subtitle">Twelve chapters of your year in music</p>
         <div id="monthly-breakdown"></div>
     </section>
 
 </div>
 
-<a class="back-button" href="index.html">← BACK TO THE UNIVERSE</a>
-
-<footer>✦ MADE OF MUSIC & MEMORIES ✦</footer>
+<a class="back-button" href="index.html">← BACK TO THE SOUNDSCAPE</a>
 </main>
 
 <script>
@@ -683,7 +679,7 @@ const params = new URLSearchParams(window.location.search);
 const year = Number(params.get("year")) || new Date().getFullYear();
 
 document.getElementById("page-title").textContent = year + " WRAPPED";
-document.getElementById("page-subtitle").textContent = "A year in music. A lifetime of memories.";
+document.getElementById("page-subtitle").textContent = "A year in music holds a lifetime of memories.";
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -722,7 +718,7 @@ function renderRanking(items, type) {
                 : "MOST PLAYED ARTIST";
 
         const link = type === "track" && item.spotifyUrl
-            ? ` <a href="${escapeHTML(item.spotifyUrl)}" target="_blank" rel="noopener" style="color:#E9A6C8;text-decoration:none;">↗</a>`
+            ? ` <a href="${escapeHTML(item.spotifyUrl)}" target="_blank" rel="noopener" style="color:#E9A6C8;text-decoration:none;">▶</a>`
             : "";
 
         return `
