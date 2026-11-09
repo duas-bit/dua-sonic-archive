@@ -948,10 +948,6 @@ async function loadAnnualRecap() {
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
 
-        animateCounter("total-plays", data.totalPlays);
-        animateCounter("unique-tracks", data.uniqueTracks);
-        animateCounter("total-hours", data.totalHours);
-
         document.getElementById("active-day").textContent =
             data.mostActiveDay
                 ? new Date(data.mostActiveDay.date + "T12:00:00").toLocaleDateString(
