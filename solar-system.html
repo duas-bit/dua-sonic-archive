@@ -285,6 +285,188 @@ h1 {
         font-size: 14px;
     }
 }
+
+
+/* YEAR NAVIGATION */
+
+.year-navigation {
+    position: fixed;
+    top: 55%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 35px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.year-nav-button {
+    pointer-events: auto;
+    border: none;
+    background: transparent;
+    color: #F2D99A;
+    font-family: 'VT323', monospace;
+    font-size: 25px;
+    cursor: pointer;
+    transition: color .3s, opacity .3s;
+}
+
+.year-nav-button:hover {
+    color: #FFFFFF;
+}
+
+.year-nav-button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+@media (max-width: 600px) {
+    .year-navigation {
+        padding: 0 10px;
+        top: 88%;
+    }
+
+    .year-nav-button {
+        font-size: 19px;
+    }
+}
+
+/* TELESCOPE TRANSITION */
+
+.travel-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #080B19;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: opacity .5s ease, visibility .5s;
+}
+
+.travel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.traveling .sky,
+body.traveling .subtitle,
+body.traveling .back-button,
+body.traveling .solar-system,
+body.traveling .year-navigation {
+    filter: blur(8px);
+    transition: filter .6s ease;
+}
+
+.travel-planet {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    left: 50%;
+    top: 43%;
+    transform: translate(-50%, -50%) scale(.65);
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(18px);
+    background: radial-gradient(circle at 35% 30%, #E9C98A, #A96E57 55%, #493A59);
+    box-shadow: 0 0 70px rgba(226,174,116,.4);
+    transition: opacity .6s, filter .7s, transform 1s;
+}
+
+.travel-overlay.planet-visible .travel-planet {
+    opacity: 1;
+}
+
+.travel-overlay.focused .travel-planet {
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.travel-overlay.zoom .travel-planet {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: .8;
+}
+
+/* TELESCOPE */
+
+.telescope {
+    position: absolute;
+    left: 50%;
+    bottom: 13%;
+    width: 230px;
+    height: 90px;
+    transform: translateX(-50%);
+    transition: transform .8s cubic-bezier(.65,0,.35,1);
+}
+
+.telescope-barrel {
+    position: absolute;
+    width: 190px;
+    height: 48px;
+    left: 20px;
+    top: 8px;
+    border-radius: 8px 20px 20px 8px;
+    background: linear-gradient(180deg, #77758A, #292B42 45%, #111426);
+    border: 2px solid #B7A9D5;
+    box-shadow: 0 0 20px rgba(183,169,213,.2);
+}
+
+.telescope-lens {
+    position: absolute;
+    right: -8px;
+    top: 3px;
+    width: 22px;
+    height: 58px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #D6BD79, #77758A, #25283D);
+    border: 2px solid #D6BD79;
+}
+
+.telescope-eyepiece {
+    position: absolute;
+    left: 0;
+    top: 17px;
+    width: 28px;
+    height: 30px;
+    border-radius: 5px;
+    background: #77758A;
+    border: 2px solid #B7A9D5;
+}
+
+.telescope-tripod {
+    position: absolute;
+    width: 5px;
+    height: 65px;
+    left: 112px;
+    top: 52px;
+    background: #77758A;
+    transform: rotate(4deg);
+}
+
+.travel-overlay.move-back .telescope {
+    transform: translateX(calc(-50% - 35vw)) rotate(-7deg);
+}
+
+.travel-overlay.move-forward .telescope {
+    transform: translateX(calc(-50% + 35vw)) rotate(7deg);
+}
+
+.travel-overlay.zoom .telescope {
+    transform: translateX(-50%) scale(2.5);
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .travel-overlay,
+    .travel-planet,
+    .telescope,
+    .travel-planet {
+        transition-duration: .01ms !important;
+    }
+}
+
 </style>
 </head>
 
@@ -294,6 +476,28 @@ h1 {
 
 <div class="subtitle">choose a moon to land on.</div>
 <a class="back-button" href="index.html">← BACK</a>
+
+<div class="year-navigation">
+    <button class="year-nav-button" id="travel-back">
+        ← TRAVEL BACK
+    </button>
+
+    <button class="year-nav-button" id="travel-forward">
+        TRAVEL FORWARD →
+    </button>
+</div>
+
+<div class="travel-overlay" id="travel-overlay">
+    <div class="travel-planet"></div>
+
+    <div class="telescope">
+        <div class="telescope-barrel"></div>
+        <div class="telescope-lens"></div>
+        <div class="telescope-eyepiece"></div>
+        <div class="telescope-tripod"></div>
+    </div>
+</div>
+
 
 <div class="solar-system">
 
@@ -385,6 +589,74 @@ h1 {
     <div class="planet">2027</div>
 
 </div>
-    
+
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const currentYear = Number(params.get("year")) || 2027;
+
+document.querySelector(".planet").textContent = currentYear;
+
+// Carry the selected year into the monthly pages.
+document.querySelectorAll(".moon").forEach(moon => {
+    const url = new URL(moon.href);
+    url.searchParams.set("year", currentYear);
+    moon.href = url.toString();
+});
+
+const overlay = document.getElementById("travel-overlay");
+const backButton = document.getElementById("travel-back");
+const forwardButton = document.getElementById("travel-forward");
+
+let travelling = false;
+
+function travelToYear(direction) {
+    if (travelling) return;
+
+    travelling = true;
+
+    const destinationYear = currentYear + direction;
+
+    document.body.classList.add("traveling");
+    overlay.classList.add("active");
+
+    // Move the telescope in the chosen direction.
+    setTimeout(() => {
+        overlay.classList.add(
+            direction < 0 ? "move-back" : "move-forward"
+        );
+    }, 450);
+
+    // Reveal the destination planet, initially out of focus.
+    setTimeout(() => {
+        overlay.classList.add("planet-visible");
+    }, 1150);
+
+    // Focus the telescope lens.
+    setTimeout(() => {
+        overlay.classList.add("focused");
+    }, 1750);
+
+    // Zoom into the destination.
+    setTimeout(() => {
+        overlay.classList.add("zoom");
+    }, 2450);
+
+    // Arrive at the new year's solar system.
+    setTimeout(() => {
+        window.location.href =
+            `solar-system.html?year=${destinationYear}`;
+    }, 3300);
+}
+
+backButton.addEventListener("click", () => {
+    travelToYear(-1);
+});
+
+forwardButton.addEventListener("click", () => {
+    travelToYear(1);
+});
+</script>
+
 </body>
 </html>
