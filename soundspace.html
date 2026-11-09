@@ -503,8 +503,23 @@ body.arriving .solar-system {
     animation: solarArrival 2.8s cubic-bezier(.2,.7,.2,1) both;
 }
 
+@keyframes skyArrival {
+    0% {
+        opacity: 0;
+        filter: blur(18px);
+    }
+    65% {
+        opacity: 1;
+        filter: blur(3px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
 body.arriving .sky {
-    animation: solarArrival 2.8s ease both;
+    animation: skyArrival 2.8s ease both;
 }
 
 @media (prefers-reduced-motion: reduce) {
