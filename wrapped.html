@@ -528,8 +528,8 @@ footer {
     opacity: 0;
     transform: translateY(18px);
     transition:
-        opacity 1.1s ease,
-        transform 1.1s ease;
+        opacity 2.2s ease,
+        transform 2.2s ease;
 }
 
 .ranking.rank-visible {
@@ -712,7 +712,7 @@ function renderRanking(items, type) {
     rankings.forEach((item, index) => {
         setTimeout(() => {
             item.classList.add("rank-visible");
-        }, index * 250);
+        }, index * 450);
     });
 }
 
