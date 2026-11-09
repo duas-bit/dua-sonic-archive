@@ -441,7 +441,7 @@ footer {
     left: 50%;
     top: 50%;
     opacity: 0;
-    animation: sunPixelReveal .45s ease-out both;
+    animation: sunRayReveal .45s ease-out both;
 }
 
 .ray-n  { transform: translate(-50%, -50%) translateY(-205px); }
@@ -468,6 +468,12 @@ footer {
     .ray-se { transform: translate(-50%, -50%) translate(100px, 100px); }
     .ray-sw { transform: translate(-50%, -50%) translate(-100px, 100px); }
 }
+
+@keyframes sunRayReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 </style>
 </head>
 
