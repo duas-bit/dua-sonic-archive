@@ -591,66 +591,57 @@ document.getElementById("phase-name").textContent = phaseNames[phase];
 const notes = document.getElementById("daily-notes");
 const status = document.getElementById("save-status");
 
-async function loadEntry() {
+function loadEntry() {
     status.textContent = "RETRIEVING LOG...";
 
     const noData = "No data found";
 
-    function displayValue(value) {
-        return value !== null &&
-               value !== undefined &&
-               String(value).trim() !== ""
-            ? value
-            : noData;
-    }
+    const fields = {
+        "song-title": "SONG TITLE",
+        "song-artist": "ARTIST",
+        "song-album": "ALBUM",
+        "play-count": "PLAY COUNT",
+        "total-plays": "TOTAL PLAYS",
+        "unique-tracks": "UNIQUE TRACKS",
+        "listening-time": "MINUTES LISTENED"
+    };
 
-    try {
-        const response = await fetch(
-            `${API_URL}?date=${encodeURIComponent(dateKey)}`
-        );
+    const script = document.createElement("script");
 
-        const entry = await response.json();
+    window.handleDailyEntryResponse = function(entry) {
+        script.remove();
+        delete window.handleDailyEntryResponse;
 
-        const fields = {
-            "song-title": "SONG TITLE",
-            "song-artist": "ARTIST",
-            "song-album": "ALBUM",
-            "play-count": "PLAY COUNT",
-            "total-plays": "TOTAL PLAYS",
-            "unique-tracks": "UNIQUE TRACKS",
-            "listening-time": "MINUTES LISTENED"
-        };
+        function displayValue(value) {
+            return value !== null &&
+                   value !== undefined &&
+                   String(value).trim() !== ""
+                ? value
+                : noData;
+        }
 
         if (entry.found === false) {
-            const noData = "No data found";
-        
-            document.getElementById("song-title").textContent = noData;
-            document.getElementById("song-artist").textContent = noData;
-            document.getElementById("song-album").textContent = noData;
-            document.getElementById("play-count").textContent = noData;
-        
-            document.getElementById("total-plays").textContent = noData;
-            document.getElementById("unique-tracks").textContent = noData;
-            document.getElementById("listening-time").textContent = noData;
-        
+            Object.keys(fields).forEach(id => {
+                document.getElementById(id).textContent = noData;
+            });
+
             document.querySelector(".album-art span").textContent = noData;
-        
+
             const spotifyLink = document.getElementById("spotify-link");
             spotifyLink.textContent = noData;
             spotifyLink.removeAttribute("href");
-        
+
             notes.value = "";
             status.textContent = "NO DATA FOUND.";
             return;
         }
-        
-        // Populate all listening information.
-        Object.entries(fields).forEach(([elementId, fieldName]) => {
-            document.getElementById(elementId).textContent =
-                displayValue(entry[fieldName]);
+
+        Object.entries(fields).forEach(([id, field]) => {
+            document.getElementById(id).textContent =
+                displayValue(entry[field]);
         });
 
-        // Album artwork.
+        // Album artwork
         const albumArt = document.querySelector(".album-art");
         const artwork = entry["ALBUM ARTWORK URL"];
 
@@ -663,10 +654,9 @@ async function loadEntry() {
             albumArt.style.backgroundImage = "none";
             albumArt.querySelector("span").textContent = noData;
             albumArt.querySelector("span").style.display = "block";
-            albumArt.querySelector("span").style.fontSize = "15px";
         }
 
-        // Spotify link.
+        // Spotify link
         const spotifyLink = document.getElementById("spotify-link");
         const spotify = entry["SPOTIFY LINK"];
 
@@ -678,15 +668,21 @@ async function loadEntry() {
             spotifyLink.removeAttribute("href");
         }
 
-        // Personal notes remain editable.
         notes.value = entry["PERSONAL NOTES"] || "";
-
         status.textContent = "LOG RETRIEVED.";
+    };
 
-    } catch (error) {
-        console.error("Loading error:", error);
+    script.onerror = function() {
+        script.remove();
+        delete window.handleDailyEntryResponse;
         status.textContent = "UNABLE TO LOAD LOG.";
-    }
+    };
+
+    script.src =
+        `${API_URL}?date=${encodeURIComponent(dateKey)}` +
+        `&callback=handleDailyEntryResponse`;
+
+    document.body.appendChild(script);
 }
 
 async function saveEntry() {
