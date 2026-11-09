@@ -661,6 +661,9 @@ const ticks = document.getElementById("focus-ticks");
 
 const backButton = document.getElementById("travel-back");
 const forwardButton = document.getElementById("travel-forward");
+// Only allow travel between 2026 and 2027.
+backButton.style.display = currentYear === 2027 ? "block" : "none";
+forwardButton.style.display = currentYear === 2026 ? "block" : "none";
 
 let travelling = false;
 
@@ -695,12 +698,16 @@ for (let i = 0; i <= 24; i++) {
 // Travel between years.
 function travelToYear(direction) {
     if (travelling) return;
+    if (
+        (direction === -1 && currentYear !== 2027) ||
+        (direction === 1 && currentYear !== 2026)
+    ) return;
 
     travelling = true;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         window.location.href =
-            `solar-system.html?year=${currentYear + direction}`;
+            `soundspace.html?year=${currentYear + direction}`;
         return;
     }
 
@@ -742,7 +749,7 @@ function travelToYear(direction) {
     // 6. Arrive at the destination year's page.
     setTimeout(() => {
         window.location.href =
-            `solar-system.html?year=${currentYear + direction}&arrive=1`;
+            `soundspace.html?year=${currentYear + direction}&arrive=1`;
     }, 10300);
 }
 
@@ -757,7 +764,7 @@ if (params.get("arrive") === "1") {
         document.body.classList.remove("arriving");
 
         const cleanUrl =
-            `solar-system.html?year=${currentYear}`;
+            `soundspace.html?year=${currentYear}`;
 
         window.history.replaceState(null, "", cleanUrl);
     }, 3000);
