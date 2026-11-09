@@ -832,30 +832,32 @@ function renderMonthlyChart(monthlyPlays) {
             <div class="chart-row">
                 <span class="chart-month">${escapeHTML(item.month.slice(0, 3))}</span>
                 <div class="chart-track">
-                    <div class="chart-bar" style="width:0%;"
-                    data-target-width="${percentage}"></div>
+                    <div class="chart-bar"
+                        style="width:0%;"
+                        data-target-width="${width}">
+                    </div>
                 </div>
                 <span class="chart-count">${formatNumber(item.plays)}</span>
             </div>
         `;
     }).join("");
+
     const bars = container.querySelectorAll(".chart-bar");
 
     const barObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const bar = entry.target;
-    
-                bar.style.width =
-                    `${bar.dataset.targetWidth}%`;
-    
+
+                bar.style.width = `${bar.dataset.targetWidth}%`;
+
                 observer.unobserve(bar);
             }
         });
     }, {
         threshold: 0.2
     });
-    
+
     bars.forEach(bar => barObserver.observe(bar));
 }
 
@@ -941,12 +943,15 @@ async function loadAnnualRecap() {
 
         document.getElementById("total-plays").textContent =
             formatNumber(data.totalPlays);
+            animateCounter("total-plays", data.totalPlays);
 
         document.getElementById("unique-tracks").textContent =
             formatNumber(data.uniqueTracks);
+            animateCounter("unique-tracks", data.uniqueTracks);
 
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
+            animateCounter("total-hours", data.totalHours);
 
         document.getElementById("active-day").textContent =
             data.mostActiveDay
