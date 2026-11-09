@@ -425,6 +425,31 @@ footer {
             100px 100px #C58A65;
     }
 }
+    
+.sun-pixel {
+    position: relative;
+    cursor: pointer;
+}
+
+.sun-tooltip {
+    position: fixed;
+    display: none;
+    z-index: 100;
+    pointer-events: none;
+    background: #171B35;
+    border: 1px solid #D6BD79;
+    padding: 10px 14px;
+    color: #F2D99A;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    line-height: 1.3;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,.5);
+}
+
+.sun-tooltip.visible {
+    display: block;
+}
 </style>
 </head>
 
@@ -466,6 +491,7 @@ footer {
         <p class="section-subtitle">A pixel for every day you listened</p>
     
         <div id="annual-sun" class="annual-sun"></div>
+        <div id="sun-tooltip" class="sun-tooltip"></div>
     
         <div id="sun-legend" class="sun-legend">
             <span><i style="background:#B96A70"></i>0–2 HRS</span>
@@ -656,16 +682,32 @@ function renderAnnualSun(dailyMinutes) {
 
         const day = dailyMinutes[index];
         const minutes = Number(day.minutes) || 0;
-
+        
         const color = minutes === 0
             ? "#34364A"
             : colors.find(item => minutes <= item.max)?.color || "#8275B5";
-
+        
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        
+        const duration = hours > 0
+            ? `${hours}h ${remainingMinutes}m`
+            : `${minutes}m`;
+        
+        const category = minutes === 0 ? "No listening" :
+            minutes <= 120 ? "0–2 hours" :
+            minutes <= 240 ? "2–4 hours" :
+            minutes <= 360 ? "4–6 hours" :
+            minutes <= 480 ? "6–8 hours" :
+            minutes <= 720 ? "8–12 hours" : "12–24 hours";
+        
         grid[py * size + px] = `
             <div
                 class="sun-pixel"
                 style="background:${color}"
-                title="${escapeHTML(day.date)} — ${minutes} minutes listened"
+                data-date="${escapeHTML(day.date)}"
+                data-duration="${duration}"
+                data-category="${category}"
             ></div>
         `;
     });
@@ -673,6 +715,35 @@ function renderAnnualSun(dailyMinutes) {
     container.innerHTML = grid.map(pixel =>
         pixel || '<div class="sun-pixel empty"></div>'
     ).join("");
+}
+
+function setupSunTooltip() {
+    const tooltip = document.getElementById("sun-tooltip");
+    const sun = document.getElementById("annual-sun");
+
+    sun.addEventListener("pointerover", event => {
+        const pixel = event.target.closest(".sun-pixel");
+        if (!pixel || !sun.contains(pixel)) return;
+
+        tooltip.innerHTML = `
+            <div>${pixel.dataset.date}</div>
+            <div>${pixel.dataset.duration} listened</div>
+            <div style="color:#B7A9D5">${pixel.dataset.category}</div>
+        `;
+
+        tooltip.classList.add("visible");
+    });
+
+    sun.addEventListener("pointermove", event => {
+        tooltip.style.left = `${event.clientX + 14}px`;
+        tooltip.style.top = `${event.clientY + 14}px`;
+    });
+
+    sun.addEventListener("pointerout", event => {
+        if (event.target.closest(".sun-pixel")) {
+            tooltip.classList.remove("visible");
+        }
+    });
 }
     
 function renderMonthlyChart(monthlyPlays) {
@@ -779,6 +850,7 @@ async function loadAnnualRecap() {
         renderRanking(data.topAlbums, "album");
         renderMonthlyChart(data.monthlyPlays);
         renderAnnualSun(data.dailyMinutes);
+        setupSunTooltip();
         renderMonthlyBreakdown(data.monthlyStats);
 
         document.getElementById("loading").hidden = true;
