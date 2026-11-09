@@ -325,6 +325,7 @@ footer {
     justify-content: center;
     margin: 35px auto;
     width: fit-content;
+    padding: 12px;
 }
 
 .sun-pixel {
@@ -559,19 +560,66 @@ function renderAnnualSun(dailyMinutes) {
         { max: 1440, color: "#8275B5" }
     ];
 
-    const totalDays = dailyMinutes.length;
-    const columns = 25;
-    const center = (columns - 1) / 2;
-    const centerRow = Math.ceil(totalDays / columns / 2);
+    const size = 25;
+    const center = Math.floor(size / 2);
+    const positions = [];
 
-    const pixels = dailyMinutes.map((day, index) => {
+    // Generate spiral positions from the centre outward
+    let x = center;
+    let y = center;
+    let step = 1;
+
+    positions.push([x, y]);
+
+    while (positions.length < dailyMinutes.length) {
+        for (let i = 0; i < step; i++) {
+            x++;
+            positions.push([x, y]);
+            if (positions.length >= dailyMinutes.length) break;
+        }
+
+        for (let i = 0; i < step && positions.length < dailyMinutes.length; i++) {
+            y++;
+            positions.push([x, y]);
+        }
+
+        step++;
+
+        for (let i = 0; i < step && positions.length < dailyMinutes.length; i++) {
+            x--;
+            positions.push([x, y]);
+        }
+
+        for (let i = 0; i < step && positions.length < dailyMinutes.length; i++) {
+            y--;
+            positions.push([x, y]);
+        }
+
+        step++;
+    }
+
+    // Create a circular pixel-art silhouette
+    const radius = 12.2;
+    const grid = Array(size * size).fill("");
+
+    positions.forEach(([px, py], index) => {
+        if (px < 0 || px >= size || py < 0 || py >= size) return;
+
+        const distance = Math.sqrt(
+            Math.pow(px - center, 2) +
+            Math.pow(py - center, 2)
+        );
+
+        if (distance > radius) return;
+
+        const day = dailyMinutes[index];
         const minutes = Number(day.minutes) || 0;
 
         const color = minutes === 0
             ? "#34364A"
             : colors.find(item => minutes <= item.max)?.color || "#8275B5";
 
-        return `
+        grid[py * size + px] = `
             <div
                 class="sun-pixel"
                 style="background:${color}"
@@ -580,7 +628,9 @@ function renderAnnualSun(dailyMinutes) {
         `;
     });
 
-    container.innerHTML = pixels.join("");
+    container.innerHTML = grid.map(pixel =>
+        pixel || '<div class="sun-pixel empty"></div>'
+    ).join("");
 }
     
 function renderMonthlyChart(monthlyPlays) {
