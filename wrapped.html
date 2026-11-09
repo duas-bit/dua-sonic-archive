@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sai's Sonic Archive | Wrapped</title>
+<title>Sai's Sonic Archive | 2027 Wrapped</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
 <style>
@@ -474,6 +474,17 @@ footer {
     to { opacity: 1; }
 }
 
+/* WAIT FOR SCROLL TO TRIGGER SUN */
+.annual-sun .sun-pixel:not(.empty),
+.annual-sun .sun-ray {
+    animation-play-state: paused;
+}
+
+.annual-sun.sun-animate .sun-pixel:not(.empty),
+.annual-sun.sun-animate .sun-ray {
+    animation-play-state: running;
+}
+
 /* SECTION REVEAL */
 .section {
     opacity: 0;
@@ -494,6 +505,11 @@ footer {
         transform: none;
         transition: none;
     }
+    .ranking {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 /* COUNT-UP STATISTICS */
@@ -505,6 +521,20 @@ footer {
 .chart-bar {
     width: 0;
     transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* RANKING REVEAL */
+.ranking {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+}
+
+.ranking.rank-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 </style>
@@ -671,6 +701,19 @@ function renderRanking(items, type) {
             </div>
         `;
     }).join("");
+
+    const rankings = container.querySelectorAll(".ranking");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        rankings.forEach(item => item.classList.add("rank-visible"));
+        return;
+    }
+
+    rankings.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.add("rank-visible");
+        }, index * 120);
+    });
 }
 
 function renderAnnualSun(dailyMinutes) {
@@ -929,6 +972,26 @@ function animateCounter(id, finalValue, duration = 1400) {
     requestAnimationFrame(updateCounter);
 }
 
+/* SUN SCROLL REVEAL */
+function setupSunReveal() {
+    const sun = document.getElementById("annual-sun");
+
+    if (!sun) return;
+
+    const sunObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sun.classList.add("sun-animate");
+                observer.unobserve(sun);
+            }
+        });
+    }, {
+        threshold: 0.25
+    });
+
+    sunObserver.observe(sun);
+}
+
 async function loadAnnualRecap() {
     try {
         const response = await fetch(
@@ -984,6 +1047,7 @@ async function loadAnnualRecap() {
         renderMonthlyChart(data.monthlyPlays);
         renderAnnualSun(data.dailyMinutes);
         setupSunTooltip();
+        setupSunReveal();
         renderMonthlyBreakdown(data.monthlyStats);
 
         document.getElementById("loading").hidden = true;
