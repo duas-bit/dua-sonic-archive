@@ -310,16 +310,14 @@ h1 {
     font-size: 25px;
     cursor: pointer;
     transition: color .3s, opacity .3s;
-    #travel-forward {
-        position: absolute;
-        right: 35px;
-        left: auto;
-    }
-    #travel-back {
-        position: absolute;
-        left: 35px;
-        right: auto;
-    }
+}
+
+#travel-back {
+    margin-right: auto;
+}
+
+#travel-forward {
+    margin-left: auto;
 }
 
 .year-nav-button:hover {
@@ -329,12 +327,6 @@ h1 {
 .year-nav-button:disabled {
     opacity: .35;
     cursor: default;
-    #travel-back {
-    margin-right: auto;
-    }
-    #travel-forward {
-        margin-left: auto;
-    }
 }
 
 @media (max-width: 600px) {
@@ -345,16 +337,6 @@ h1 {
 
     .year-nav-button {
         font-size: 19px;
-    }
-}
-
-@media (max-width: 600px) {
-    #travel-forward {
-         right: 10px;
-    }
-    
-     #travel-back {
-        left: 10px;
     }
 }
 
