@@ -488,6 +488,14 @@ footer {
     transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .section {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 </style>
 </head>
 
@@ -922,6 +930,26 @@ async function loadAnnualRecap() {
 }
 
 loadAnnualRecap();
+</script>
+<script>
+/* SCROLL REVEAL */
+const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+document.querySelectorAll(".section").forEach(section => {
+    revealObserver.observe(section);
+});
 </script>
 </body>
 </html>
