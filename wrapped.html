@@ -583,6 +583,7 @@ footer {
 <header>
     <div class="eyebrow">✦ SAI'S SONIC ARCHIVE ✦</div>
     <h1 id="page-title">WRAPPED</h1>
+    <p id="page-subtitle">A year in music holds a lifetime of memories.</p>
 </header>
 
 <div id="loading" class="loading">COLLECTING YOUR MEMORIES...</div>
@@ -717,7 +718,7 @@ function renderRanking(items, type) {
                 : "MOST PLAYED ARTIST";
 
         const link = type === "track" && item.spotifyUrl
-            ? ` <a href="${escapeHTML(item.spotifyUrl)}" target="_blank" rel="noopener" style="color:#E9A6C8;text-decoration:none;">▸</a>`
+            ? ` <a href="${escapeHTML(item.spotifyUrl)}" target="_blank" rel="noopener" style="color:#E9A6C8;text-decoration:none;">▶</a>`
             : "";
 
         return `
