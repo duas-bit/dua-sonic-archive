@@ -622,21 +622,28 @@ async function loadEntry() {
         };
 
         if (entry.found === false) {
-            Object.entries(fields).forEach(([elementId]) => {
-                document.getElementById(elementId).textContent = noData;
-            });
-
+            const noData = "No data found";
+        
+            document.getElementById("song-title").textContent = noData;
+            document.getElementById("song-artist").textContent = noData;
+            document.getElementById("song-album").textContent = noData;
+            document.getElementById("play-count").textContent = noData;
+        
+            document.getElementById("total-plays").textContent = noData;
+            document.getElementById("unique-tracks").textContent = noData;
+            document.getElementById("listening-time").textContent = noData;
+        
             document.querySelector(".album-art span").textContent = noData;
-
+        
             const spotifyLink = document.getElementById("spotify-link");
             spotifyLink.textContent = noData;
             spotifyLink.removeAttribute("href");
-
+        
             notes.value = "";
             status.textContent = "NO DATA FOUND.";
             return;
         }
-
+        
         // Populate all listening information.
         Object.entries(fields).forEach(([elementId, fieldName]) => {
             document.getElementById(elementId).textContent =
