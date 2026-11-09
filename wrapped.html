@@ -941,15 +941,16 @@ async function loadAnnualRecap() {
 
         document.getElementById("total-plays").textContent =
             formatNumber(data.totalPlays);
-            animateCounter("total-plays", data.totalPlays);
 
         document.getElementById("unique-tracks").textContent =
             formatNumber(data.uniqueTracks);
-            animateCounter("unique-tracks", data.uniqueTracks);
 
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
-            animateCounter("total-hours", data.totalHours);
+
+        animateCounter("total-plays", data.totalPlays);
+        animateCounter("unique-tracks", data.uniqueTracks);
+        animateCounter("total-hours", data.totalHours);
 
         document.getElementById("active-day").textContent =
             data.mostActiveDay
