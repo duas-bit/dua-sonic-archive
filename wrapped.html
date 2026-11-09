@@ -496,6 +496,17 @@ footer {
     }
 }
 
+/* COUNT-UP STATISTICS */
+.stat-number {
+    font-variant-numeric: tabular-nums;
+}
+
+/* MONTHLY BAR GROWTH */
+.chart-bar {
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 </style>
 </head>
 
@@ -821,12 +832,31 @@ function renderMonthlyChart(monthlyPlays) {
             <div class="chart-row">
                 <span class="chart-month">${escapeHTML(item.month.slice(0, 3))}</span>
                 <div class="chart-track">
-                    <div class="chart-bar" style="width:${width}%"></div>
+                    <div class="chart-bar" style="width:0%;"
+                    data-target-width="${percentage}"></div>
                 </div>
                 <span class="chart-count">${formatNumber(item.plays)}</span>
             </div>
         `;
     }).join("");
+    const bars = container.querySelectorAll(".chart-bar");
+
+    const barObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bar = entry.target;
+    
+                bar.style.width =
+                    `${bar.dataset.targetWidth}%`;
+    
+                observer.unobserve(bar);
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+    
+    bars.forEach(bar => barObserver.observe(bar));
 }
 
 function renderMonthlyBreakdown(monthlyStats) {
@@ -863,6 +893,40 @@ function renderMonthlyBreakdown(monthlyStats) {
     }).join("");
 }
 
+/* COUNT-UP ANIMATION */
+function animateCounter(id, finalValue, duration = 1400) {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const target = Number(finalValue) || 0;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        element.textContent = target.toLocaleString();
+        return;
+    }
+
+    const startTime = performance.now();
+
+    function updateCounter(currentTime) {
+        const progress = Math.min(
+            (currentTime - startTime) / duration,
+            1
+        );
+
+        const eased = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.round(target * eased);
+
+        element.textContent = currentValue.toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+
+    element.textContent = "0";
+    requestAnimationFrame(updateCounter);
+}
+
 async function loadAnnualRecap() {
     try {
         const response = await fetch(
@@ -877,12 +941,15 @@ async function loadAnnualRecap() {
 
         document.getElementById("total-plays").textContent =
             formatNumber(data.totalPlays);
+            animateCounter("total-plays", data.totalPlays);
 
         document.getElementById("unique-tracks").textContent =
             formatNumber(data.uniqueTracks);
+            animateCounter("unique-tracks", data.uniqueTracks);
 
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
+            animateCounter("total-hours", data.totalHours);
 
         document.getElementById("active-day").textContent =
             data.mostActiveDay
