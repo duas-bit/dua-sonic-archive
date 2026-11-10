@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sai's Sonic Archive | December 2027</title>
+<title>Dua's Sonic Archive | December</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
@@ -544,11 +544,11 @@ main {
 
 <header>
     <div class="subtitle">pick a phase.</div>
-    <a class="back-button" href="soundspace.html">← BACK</a>
+    <a class="back-button" id="back-button" href="soundspace.html">← BACK</a>
 </header>
 
 <main>
-    <div class="month-heading">DECEMBER 2027</div>
+    <div class="month-heading" id="month-heading">DECEMBER</div>
 
     <div class="weekdays">
         <div>SUN</div><div>MON</div><div>TUE</div>
@@ -558,7 +558,7 @@ main {
     <div class="calendar" id="calendar"></div>
 
     <button class="playlist" id="playlist-button" disabled>
-        ♫ CHECKING RELEASE STATUS...
+        CHECKING RELEASE STATUS...
     </button>
 
     <div class="legend">
@@ -569,15 +569,59 @@ main {
 </main>
 
 <script>
-const year = 2027;
+const params = new URLSearchParams(window.location.search);
+
+// Use the year selected in SoundSpace.
+// If opened directly, default to the actual calendar year.
+const requestedYear = Number(params.get("year"));
+const currentYear = new Date().getFullYear();
+
+const year = Number.isInteger(requestedYear) &&
+             requestedYear >= 1900 &&
+             requestedYear <= 2200
+    ? requestedYear
+    : currentYear;
+
 const month = 11;
+
+const monthName = new Date(year, month, 1)
+    .toLocaleString("en-CA", { month: "long" });
+
+document.getElementById("month-heading").textContent =
+    `${monthName.toUpperCase()} ${year}`;
+
+document.title = `Dua's Sonic Archive | ${monthName} ${year}`;
+
+document.getElementById("back-button").href =
+    `soundspace.html?year=${year}`;
+
+// Get today's date using Calgary time.
+function getCalgaryDate() {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Edmonton",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).formatToParts(new Date());
+
+    const values = {};
+
+    parts.forEach(part => {
+        values[part.type] = part.value;
+    });
+
+    return `${values.year}-${values.month}-${values.day}`;
+}
+
+const todayDate = getCalgaryDate();
+const firstCollectionDate = "2026-11-06";
+
 const daysInMonth = new Date(year, month + 1, 0).getDate();
 const firstDay = new Date(year, month, 1).getDay();
-const today = 6;
 
 const calendar = document.getElementById("calendar");
 
-// Empty spaces before January 1
+// Empty spaces before the first day.
 for (let i = 0; i < firstDay; i++) {
     const empty = document.createElement("div");
     empty.className = "day empty";
@@ -586,7 +630,6 @@ for (let i = 0; i < firstDay; i++) {
 
 function getMoonPhase(day) {
     const date = new Date(Date.UTC(year, month, day, 12));
-
     const julianDate = date.getTime() / 86400000 + 2440587.5;
 
     const lunarCycle = 29.530588853;
@@ -610,30 +653,49 @@ function getMoonPhase(day) {
     return 7;
 }
 
-// Sample daily entries
+// Build the calendar and automatically derive each date's status.
 for (let day = 1; day <= daysInMonth; day++) {
+
+    const dateKey =
+        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
     const cell = document.createElement("div");
     cell.className = "day";
 
-    if (day < today) {
-        cell.classList.add(day === 3 ? "no-music" : "completed");
-    } else if (day === today) {
-        cell.classList.add("today");
-    } else {
+    let status;
+
+    if (dateKey > todayDate) {
+        status = "upcoming";
         cell.classList.add("future");
+
+    } else if (dateKey < firstCollectionDate) {
+        status = "no-music";
+        cell.classList.add("no-music");
+
+    } else if (dateKey === todayDate) {
+        status = "today";
+        cell.classList.add("today");
+
+    } else {
+        status = "logged";
+        cell.classList.add("completed");
     }
 
     const phase = getMoonPhase(day);
-    
+
     cell.innerHTML = `
         <span>${day}</span>
         <div class="moon phase-${phase}"></div>
     `;
 
-    if (day <= today) {
+    cell.title = `${dateKey} — ${status.replace("-", " ").toUpperCase()}`;
+
+    // Future dates cannot be opened.
+    if (status !== "upcoming") {
         cell.style.cursor = "pointer";
+
         cell.addEventListener("click", () => {
-            window.location.href = `entry.html?date=${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            window.location.href = `entry.html?date=${dateKey}`;
         });
     }
 
@@ -881,7 +943,7 @@ async function checkMonthlyPlaylistStatus() {
         const status = await response.json();
 
         if (status.alreadyCreated) {
-            button.textContent = "♫ PLAYLIST CREATED — OPEN IN SPOTIFY";
+            button.textContent = "► PLAYLIST CREATED — OPEN IN SPOTIFY";
             button.classList.add("created");
             button.disabled = false;
 
@@ -890,18 +952,18 @@ async function checkMonthlyPlaylistStatus() {
             };
 
         } else if (status.unlocked) {
-            button.textContent = "♫ MONTHLY PLAYLIST — UNLOCKED";
+            button.textContent = "♫ CREATE YOUR MONTHLY PLAYLIST";
             button.classList.add("unlocked");
             button.disabled = true;
 
         } else {
-            button.textContent = "♫ MONTHLY PLAYLIST — LOCKED";
+            button.textContent = "♫ MONTHLY PLAYLIST LOCKED";
             button.disabled = true;
         }
 
     } catch (error) {
         console.error("Monthly playlist status:", error);
-        button.textContent = "♫ PLAYLIST STATUS UNAVAILABLE";
+        button.textContent = "PLAYLIST STATUS UNAVAILABLE";
         button.disabled = true;
     }
 }
