@@ -171,22 +171,6 @@ h1 {
     color: #FFFFFF;
 }
 
-.wrapped-button {
-    position: relative;
-    display: block;
-    width: fit-content;
-    margin: 12px auto 0;
-    z-index: 3;
-    color: #E9A6C8;
-    text-decoration: none;
-    font-size: 23px;
-    transition: color .3s ease;
-}
-
-.wrapped-button:hover {
-    color: #FFFFFF;
-}
-
 @media (max-width: 600px) {
     .solar-system {
         width: 82vw;
@@ -559,9 +543,6 @@ body.arriving .sky {
 
 <div class="subtitle">choose a moon to land on.</div>
 <a class="back-button" href="index.html">← BACK</a>
-<a class="wrapped-button" id="wrapped-button" hidden>
-    ✦ VIEW WRAPPED ✦
-</a>
 
 <div class="year-navigation">
     <button class="year-nav-button" id="travel-back">
@@ -731,16 +712,6 @@ document.querySelectorAll(".moon").forEach(moon => {
     url.searchParams.set("year", currentYear);
     moon.href = url.toString();
 });
-
-// Wrapped button.
-const wrappedButton = document.getElementById("wrapped-button");
-const wrappedUnlockDate = `${currentYear}-12-31`;
-
-if (todayDate >= wrappedUnlockDate) {
-    wrappedButton.hidden = false;
-    wrappedButton.textContent = `✦ ${currentYear} WRAPPED ✦`;
-    wrappedButton.href = `wrapped.html?year=${currentYear}`;
-}
 
 // Focus ring elements.
 const overlay = document.getElementById("travel-overlay");
