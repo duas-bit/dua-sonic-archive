@@ -461,7 +461,7 @@ h1 {
         </div>
 
         <a href="#" class="spotify-link" id="spotify-link" target="_blank" rel="noopener">
-            ▶︎ OPEN IN SPOTIFY
+            ► OPEN IN SPOTIFY
         </a>
 
     </div>
@@ -506,7 +506,7 @@ h1 {
     ></textarea>
     <div class="save-area">
         <button id="save-notes" type="button">
-            ▶︎ SAVE LOG
+            ► SAVE LOG
         </button>
         <span id="save-status">AWAITING LOG...</span>
     </div>
@@ -707,7 +707,7 @@ async function loadEntry() {
             spotifyLink.removeAttribute("href");
         } else if (spotify && String(spotify).trim() !== "") {
             spotifyLink.href = spotify;
-            spotifyLink.textContent = "▶︎ OPEN IN SPOTIFY";
+            spotifyLink.textContent = "► OPEN IN SPOTIFY";
         } else {
             spotifyLink.textContent = noData;
             spotifyLink.removeAttribute("href");
