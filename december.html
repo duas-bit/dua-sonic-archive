@@ -287,11 +287,12 @@ main {
     font-size: 22px;
     text-decoration: none;
     text-align: center;
-    transition: .3s ease;
+    transition: color .3s ease, border-color .3s ease;
 }
 
 .wrapped-button:hover {
-    background: rgba(233, 166, 200, 0.12);
+    color: #FFFFFF;
+    border-color: #FFFFFF;
 }
 
 .wrapped-button[hidden] {
@@ -583,7 +584,9 @@ main {
     <button class="playlist" id="playlist-button" disabled>
         CHECKING RELEASE STATUS...
     </button>
-    <a class="wrapped-button" id="wrapped-button" hidden></a>
+    <a class="wrapped-button" id="wrapped-button" hidden>
+        ✦ VIEW WRAPPED ✦
+    </a>
 
     <div class="legend">
         <span><i class="legend-dot"></i> Logged</span>
@@ -638,6 +641,15 @@ function getCalgaryDate() {
 }
 
 const todayDate = getCalgaryDate();
+// Wrapped button — unlock on December 31 of the selected year.
+const wrappedButton = document.getElementById("wrapped-button");
+const wrappedUnlockDate = `${year}-12-31`;
+
+if (todayDate >= wrappedUnlockDate) {
+    wrappedButton.hidden = false;
+    wrappedButton.textContent = `✦ VIEW ${year} WRAPPED ✦`;
+    wrappedButton.href = `wrapped.html?year=${year}`;
+}
 const firstCollectionDate = "2026-11-06";
 
 const daysInMonth = new Date(year, month + 1, 0).getDate();
