@@ -171,6 +171,22 @@ h1 {
     color: #FFFFFF;
 }
 
+.wrapped-button {
+    position: relative;
+    display: block;
+    width: fit-content;
+    margin: 12px auto 0;
+    z-index: 3;
+    color: #E9A6C8;
+    text-decoration: none;
+    font-size: 23px;
+    transition: color .3s ease;
+}
+
+.wrapped-button:hover {
+    color: #FFFFFF;
+}
+
 @media (max-width: 600px) {
     .solar-system {
         width: 82vw;
@@ -543,6 +559,9 @@ body.arriving .sky {
 
 <div class="subtitle">choose a moon to land on.</div>
 <a class="back-button" href="index.html">← BACK</a>
+<a class="wrapped-button" id="wrapped-button" hidden>
+    ✦ VIEW WRAPPED ✦
+</a>
 
 <div class="year-navigation">
     <button class="year-nav-button" id="travel-back">
@@ -673,7 +692,35 @@ body.arriving .sky {
 
 <script>
 const params = new URLSearchParams(window.location.search);
-const currentYear = Number(params.get("year")) || 2027;
+
+// Get the current date using Calgary time.
+function getCalgaryDate() {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Edmonton",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).formatToParts(new Date());
+
+    const values = {};
+
+    parts.forEach(part => {
+        values[part.type] = part.value;
+    });
+
+    return `${values.year}-${values.month}-${values.day}`;
+}
+
+const todayDate = getCalgaryDate();
+
+// Use the selected year, or the actual current year by default.
+const requestedYear = Number(params.get("year"));
+
+const currentYear = Number.isInteger(requestedYear) &&
+                    requestedYear >= 2026 &&
+                    requestedYear <= 2100
+    ? requestedYear
+    : Number(todayDate.slice(0, 4));
 
 // Display the selected year.
 document.querySelector(".planet").textContent = currentYear;
@@ -685,6 +732,16 @@ document.querySelectorAll(".moon").forEach(moon => {
     moon.href = url.toString();
 });
 
+// Wrapped button.
+const wrappedButton = document.getElementById("wrapped-button");
+const wrappedUnlockDate = `${currentYear}-12-31`;
+
+if (todayDate >= wrappedUnlockDate) {
+    wrappedButton.hidden = false;
+    wrappedButton.textContent = `✦ ${currentYear} WRAPPED ✦`;
+    wrappedButton.href = `wrapped.html?year=${currentYear}`;
+}
+
 // Focus ring elements.
 const overlay = document.getElementById("travel-overlay");
 const indicator = document.getElementById("focus-indicator");
@@ -692,9 +749,12 @@ const ticks = document.getElementById("focus-ticks");
 
 const backButton = document.getElementById("travel-back");
 const forwardButton = document.getElementById("travel-forward");
-// Only allow travel between 2026 and 2027.
-backButton.style.display = currentYear === 2027 ? "block" : "none";
-forwardButton.style.display = currentYear === 2026 ? "block" : "none";
+
+// Travel back to earlier years, but never before 2026.
+backButton.style.display = currentYear > 2026 ? "block" : "none";
+
+// Future-year travel is always available.
+forwardButton.style.display = "block";
 
 let travelling = false;
 
@@ -729,10 +789,7 @@ for (let i = 0; i <= 24; i++) {
 // Travel between years.
 function travelToYear(direction) {
     if (travelling) return;
-    if (
-        (direction === -1 && currentYear !== 2027) ||
-        (direction === 1 && currentYear !== 2026)
-    ) return;
+    if (direction === -1 && currentYear <= 2026) return;
 
     travelling = true;
 
