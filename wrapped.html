@@ -573,6 +573,10 @@ footer {
     }
 }
 
+.wrapped-button[hidden] {
+    display: none;
+}
+    
 </style>
 </head>
 
@@ -583,6 +587,7 @@ footer {
 <header>
     <div class="eyebrow">✦ Dua'S SONIC ARCHIVE ✦</div>
     <h1 id="page-title">WRAPPED</h1>
+    <p id="page-subtitle">A year in music holds a lifetime of memories.</p>
 </header>
 
 <div id="loading" class="loading">COLLECTING YOUR MEMORIES...</div>
@@ -668,17 +673,51 @@ footer {
 
 </div>
 
-<a class="back-button" href="index.html">← BACK TO THE SOUNDSCAPE</a>
+<a class="back-button" id="back-button" href="soundspace.html">
+    ← BACK TO THE SOUNDSPACE
+</a>
 </main>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
 
 const params = new URLSearchParams(window.location.search);
-const year = Number(params.get("year")) || new Date().getFullYear();
 
-document.getElementById("page-title").textContent = year + " WRAPPED";
-document.getElementById("page-subtitle").textContent = "A year in music holds a lifetime of memories.";
+const requestedYear = Number(params.get("year"));
+
+const year = Number.isInteger(requestedYear) &&
+             requestedYear >= 2026 &&
+             requestedYear <= 2100
+    ? requestedYear
+    : Number(getCalgaryDate().slice(0, 4));
+
+document.getElementById("page-title").textContent =
+    year + " WRAPPED";
+
+document.title = `Dua's Sonic Archive | ${year} Wrapped`;
+
+document.getElementById("page-subtitle").textContent =
+    `A year in music holds a lifetime of memories from ${year}.`;
+
+document.getElementById("back-button").href =
+    `soundspace.html?year=${year}`;
+
+function getCalgaryDate() {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Edmonton",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).formatToParts(new Date());
+
+    const values = {};
+
+    parts.forEach(part => {
+        values[part.type] = part.value;
+    });
+
+    return `${values.year}-${values.month}-${values.day}`;
+}
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -1108,6 +1147,28 @@ function setupSunReveal(dailyMinutes) {
 }
 
 async function loadAnnualRecap() {
+
+    const todayDate = getCalgaryDate();
+    const unlockDate = `${year}-12-31`;
+
+    // Validate the requested recap year.
+    if (!Number.isInteger(year) || year < 2026 || year > 2100) {
+        document.getElementById("loading").hidden = true;
+        document.getElementById("error").hidden = false;
+        document.getElementById("error").textContent =
+            "THIS RECAP YEAR IS NOT AVAILABLE.";
+        return;
+    }
+
+    // Do not reveal a recap before December 31 of that year.
+    if (todayDate < unlockDate) {
+        document.getElementById("loading").hidden = true;
+        document.getElementById("error").hidden = false;
+        document.getElementById("error").textContent =
+            `YOUR ${year} WRAPPED WILL UNLOCK ON DECEMBER 31, ${year}.`;
+        return;
+    }
+
     try {
         const response = await fetch(
             `${API_URL}?action=annualRecap&year=${year}`
@@ -1121,15 +1182,14 @@ async function loadAnnualRecap() {
 
         document.getElementById("total-plays").textContent =
             formatNumber(data.totalPlays);
-            setupCounterReveal(data);
-
+        
         document.getElementById("unique-tracks").textContent =
             formatNumber(data.uniqueTracks);
-            setupCounterReveal(data);
-
+        
         document.getElementById("total-hours").textContent =
             formatNumber(data.totalHours);
-            setupCounterReveal(data);
+        
+        setupCounterReveal(data);
 
         document.getElementById("active-day").textContent =
             data.mostActiveDay
