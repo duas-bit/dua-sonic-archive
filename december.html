@@ -275,6 +275,29 @@ main {
     color: #E9A6C8;
 }
 
+.wrapped-button {
+    display: block;
+    width: fit-content;
+    margin: 12px auto 5px;
+    padding: 12px 20px;
+    border: 2px solid #E9A6C8;
+    color: #E9A6C8;
+    background: transparent;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    text-decoration: none;
+    text-align: center;
+    transition: .3s ease;
+}
+
+.wrapped-button:hover {
+    background: rgba(233, 166, 200, 0.12);
+}
+
+.wrapped-button[hidden] {
+    display: none;
+}
+
 .legend {
     display: flex;
     flex-wrap: wrap;
@@ -560,6 +583,7 @@ main {
     <button class="playlist" id="playlist-button" disabled>
         CHECKING RELEASE STATUS...
     </button>
+    <a class="wrapped-button" id="wrapped-button" hidden></a>
 
     <div class="legend">
         <span><i class="legend-dot"></i> Logged</span>
@@ -574,7 +598,7 @@ const params = new URLSearchParams(window.location.search);
 // Use the year selected in SoundSpace.
 // If opened directly, default to the actual calendar year.
 const requestedYear = Number(params.get("year"));
-const currentYear = new Date().getFullYear();
+const currentYear = Number(getCalgaryDate().slice(0, 4));
 
 const year = Number.isInteger(requestedYear) &&
              requestedYear >= 1900 &&
@@ -927,6 +951,17 @@ for (let day = 1; day <= daysInMonth; day++) {
 </div>
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
+
+// WRAPPED UNLOCK
+const wrappedButton = document.getElementById("wrapped-button");
+
+const wrappedUnlockDate = `${year}-12-31`;
+
+if (getCalgaryDate() >= wrappedUnlockDate) {
+    wrappedButton.hidden = false;
+    wrappedButton.textContent = `✦ ${year} WRAPPED ✦`;
+    wrappedButton.href = `wrapped.html?year=${year}`;
+}
 
 async function checkMonthlyPlaylistStatus() {
     const button = document.getElementById("playlist-button");
