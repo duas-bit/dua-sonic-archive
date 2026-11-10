@@ -964,17 +964,6 @@ for (let day = 1; day <= daysInMonth; day++) {
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwJlk4VZMF5Nj655_IewCluMYDVtQ0QVan7v2dQwEkel6VbjfLHQ6zc_B8-KqFAdYqjig/exec";
 
-// WRAPPED UNLOCK
-const wrappedButton = document.getElementById("wrapped-button");
-
-const wrappedUnlockDate = `${year}-12-31`;
-
-if (getCalgaryDate() >= wrappedUnlockDate) {
-    wrappedButton.hidden = false;
-    wrappedButton.textContent = `✦ ${year} WRAPPED ✦`;
-    wrappedButton.href = `wrapped.html?year=${year}`;
-}
-
 async function checkMonthlyPlaylistStatus() {
     const button = document.getElementById("playlist-button");
 
