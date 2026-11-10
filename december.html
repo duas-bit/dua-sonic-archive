@@ -645,7 +645,7 @@ const todayDate = getCalgaryDate();
 const wrappedButton = document.getElementById("wrapped-button");
 const wrappedUnlockDate = `${year}-12-31`;
 
-if (todayDate >= wrappedUnlockDate) {
+if (true) {
     wrappedButton.hidden = false;
     wrappedButton.textContent = `✦ VIEW ${year} WRAPPED ✦`;
     wrappedButton.href = `wrapped.html?year=${year}`;
